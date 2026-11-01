@@ -1,0 +1,20 @@
+{
+  "$description": "Required-state manifest. The state-matrix renderer forces each state and fails if it renders identical to rest.",
+  "surface": "app",
+  "components": {
+    "button.primary": { "selector": "button.primary", "states": ["default", "hover", "focus-visible", "active", "disabled", "loading"] },
+    "input.text":     { "selector": "input[type=text]", "states": ["default", "hover", "focus-visible", "disabled", "invalid"] }
+  },
+  "screens": {
+    "invoices": { "states": ["loading", "empty-first-run", "empty-no-results", "error", "partial", "success", "long-content"] }
+  },
+  "force": {
+    "hover": "cdp:CSS.forcePseudoState",
+    "focus-visible": "cdp:CSS.forcePseudoState",
+    "active": "cdp:CSS.forcePseudoState",
+    "disabled": "attr:disabled",
+    "invalid": "attr:aria-invalid=true",
+    "loading": "attr:aria-busy=true",
+    "error": "net:500", "empty-no-results": "net:[]", "loading-screen": "net:delay"
+  }
+}

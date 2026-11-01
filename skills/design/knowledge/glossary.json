@@ -1,0 +1,1443 @@
+{
+  "schema": "harness.glossary/1",
+  "terms": [
+    {
+      "id": "contrast-ratio",
+      "term": "Contrast ratio",
+      "aka": [
+        "luminance contrast"
+      ],
+      "plain": "How much lighter one colour is than another: 1 means identical, 21 is black on white.",
+      "technical": "WCAG 2.2: (L1 + 0.05) / (L2 + 0.05) over relative luminance; 4.5:1 body text, 3:1 large text and UI parts.",
+      "examples": {
+        "pass": "#767676 on white = 4.54:1",
+        "fail": "#777777 on white = 4.48:1"
+      },
+      "seeAlso": [
+        "relative-luminance",
+        "wcag"
+      ],
+      "source": "WCAG 2.2 SC 1.4.3"
+    },
+    {
+      "id": "relative-luminance",
+      "term": "Relative luminance",
+      "aka": [
+        "luminance"
+      ],
+      "plain": "How bright a colour looks to the eye, from 0 (black) to 1 (white). Green counts most, blue least.",
+      "technical": "L = 0.2126 R + 0.7152 G + 0.0722 B. Each sRGB channel c (0..1) is linearised: c / 12.92 when c <= 0.04045, else ((c + 0.055) / 1.055)^2.4. Older WCAG text says 0.03928; the harness page probe uses that, the token gate 0.04045.",
+      "examples": {
+        "pass": "White = 1, black = 0",
+        "fail": "Averaging the raw channels treats blue as bright as green"
+      },
+      "seeAlso": [
+        "contrast-ratio"
+      ],
+      "source": "WCAG 2.2 definitions"
+    },
+    {
+      "id": "wcag",
+      "term": "WCAG",
+      "aka": [
+        "Web Content Accessibility Guidelines"
+      ],
+      "plain": "The W3C accessibility standard. The harness measures colour contrast against it automatically; focus visibility and target size are judged by the reviewer, not by a rule.",
+      "technical": "Level AA criteria that matter here: 1.4.3 text contrast (4.5:1, 3:1 large), 1.4.11 non-text contrast (3:1), 2.4.7 focus visible, 2.5.8 target size (24 CSS px). Registry rules check contrast only; 2.4.7 and 2.5.8 are reviewer-judged.",
+      "examples": {
+        "pass": "Body text at 4.5:1 or better",
+        "fail": "Light grey 3:1 body text on white"
+      },
+      "seeAlso": [
+        "contrast-ratio",
+        "focus-visible"
+      ],
+      "source": "W3C WCAG 2.2"
+    },
+    {
+      "id": "design-token",
+      "term": "Design token",
+      "aka": [
+        "token"
+      ],
+      "plain": "A named design decision stored as data, such as colour.accent, so every screen reads one source instead of repeating a value.",
+      "technical": "A name plus a typed value in a token file (DTCG format). Tools read the file and emit CSS custom properties, app code or docs.",
+      "examples": {
+        "pass": "--color-accent defined once in tokens.json",
+        "fail": "#2b59c3 pasted into forty CSS rules"
+      },
+      "seeAlso": [
+        "dtcg",
+        "alias-token"
+      ],
+      "source": "DTCG format module"
+    },
+    {
+      "id": "dtcg",
+      "term": "DTCG",
+      "aka": [
+        "Design Tokens Community Group",
+        "design tokens format"
+      ],
+      "plain": "The shared file format for design tokens, so different tools can read the same file.",
+      "technical": "Design Tokens Format Module 2025.10: JSON with $value, $type, $description and $extensions; groups nest; {a.b} aliases reference other tokens.",
+      "examples": {
+        "pass": "{ \"color\": { \"accent\": { \"$value\": \"#0b5fff\", \"$type\": \"color\" } } }",
+        "fail": "A tokens file with no $type, so tools guess"
+      },
+      "seeAlso": [
+        "design-token",
+        "alias-token"
+      ],
+      "source": "designtokens.org format module"
+    },
+    {
+      "id": "alias-token",
+      "term": "Alias token",
+      "aka": [
+        "reference token",
+        "alias"
+      ],
+      "plain": "A token that points at another token instead of holding its own value, so one change flows everywhere it is used.",
+      "technical": "A token whose $value is the string {path.to.token}. The resolver follows the chain and fails on a missing target or a cycle.",
+      "examples": {
+        "pass": "\"focus-ring\": \"{color.accent}\"",
+        "fail": "Copying #0b5fff into focus-ring, then editing only one"
+      },
+      "seeAlso": [
+        "design-token",
+        "dtcg"
+      ],
+      "source": "DTCG format module, aliases"
+    },
+    {
+      "id": "mode",
+      "term": "Mode",
+      "aka": [
+        "token mode"
+      ],
+      "plain": "One named variant of a token set, such as light or dark, that swaps some values and leaves the rest alone.",
+      "technical": "A harness.modes axis (theme: light|dark, contrast: default|high) with per-mode overrides applied on top of the base values.",
+      "examples": {
+        "pass": "dark mode overrides surface and on-surface only",
+        "fail": "A second tokens file that drifts from the first"
+      },
+      "seeAlso": [
+        "permutation",
+        "theme"
+      ],
+      "source": "harness.modes extension"
+    },
+    {
+      "id": "permutation",
+      "term": "Permutation",
+      "aka": [
+        "mode combination"
+      ],
+      "plain": "One combination of modes, such as dark with high contrast. Every combination must pass the gates, not just the default.",
+      "technical": "The cross product of all mode axes: theme x contrast gives 4 permutations. The contrast gate checks every declared pair in each one.",
+      "examples": {
+        "pass": "Checking all 4 theme/contrast combinations",
+        "fail": "Checking light mode only"
+      },
+      "seeAlso": [
+        "mode",
+        "contrast-ratio"
+      ],
+      "source": "engine/lib/tokens.mjs#permutations"
+    },
+    {
+      "id": "theme",
+      "term": "Theme",
+      "aka": [
+        "colour scheme",
+        "light and dark"
+      ],
+      "plain": "The light or dark look of a page. A themed page follows the person's system setting unless they choose otherwise.",
+      "technical": "The prefers-color-scheme media feature reports light or dark. A page that never reacts to it is flagged by theme-unresponsive.",
+      "examples": {
+        "pass": "@media (prefers-color-scheme: dark) swaps the surface colours",
+        "fail": "Dark mode that needs a hard-coded body class and ignores the system"
+      },
+      "seeAlso": [
+        "mode",
+        "viewport"
+      ],
+      "source": "CSS Media Queries Level 5"
+    },
+    {
+      "id": "reduced-motion",
+      "term": "Reduced motion",
+      "aka": [
+        "prefers-reduced-motion"
+      ],
+      "plain": "A system setting for people who get sick or distracted from movement. Pages should calm or stop animation when it is on.",
+      "technical": "@media (prefers-reduced-motion: reduce). WCAG 2.3.3 (AAA) lets people turn off motion triggered by interaction; 2.2.2 (A) covers moving content that starts on its own. The harness fails anything still moving (transform, position, size) over 10 ms.",
+      "examples": {
+        "pass": "Transitions drop to 0.01 ms under reduce",
+        "fail": "A looping hero animation that keeps running under reduce"
+      },
+      "seeAlso": [
+        "motion-duration",
+        "wcag"
+      ],
+      "source": "WCAG 2.2 SC 2.3.3 (AAA), 2.2.2"
+    },
+    {
+      "id": "motion-duration",
+      "term": "Motion duration",
+      "aka": [
+        "duration"
+      ],
+      "plain": "How long an animation takes. Short feels responsive; long feels deliberate. Most interface motion sits between 100 and 400 ms.",
+      "technical": "A time in ms. The harness ladder is 100, 150, 220, 360 and 600 ms: instant, quick, base, slow, scene.",
+      "examples": {
+        "pass": "220 ms for a menu opening",
+        "fail": "1500 ms for a button hover"
+      },
+      "seeAlso": [
+        "easing",
+        "reduced-motion"
+      ],
+      "source": "engine/lib/motion.mjs"
+    },
+    {
+      "id": "easing",
+      "term": "Easing",
+      "aka": [
+        "timing function",
+        "acceleration curve"
+      ],
+      "plain": "The speed profile of a movement: how it starts and ends. Natural motion eases out when something arrives.",
+      "technical": "A function mapping time to progress, usually a cubic Bezier. Enter with ease-out, exit with ease-in, avoid linear for UI.",
+      "examples": {
+        "pass": "cubic-bezier(0.2, 0, 0, 1) on enter",
+        "fail": "linear on a sliding panel"
+      },
+      "seeAlso": [
+        "cubic-bezier",
+        "motion-duration"
+      ],
+      "source": "CSS Easing Functions Level 1"
+    },
+    {
+      "id": "cubic-bezier",
+      "term": "Cubic Bezier",
+      "aka": [
+        "bezier curve"
+      ],
+      "plain": "Four numbers that draw the curve of an easing: the two control points that bend a line from start to finish.",
+      "technical": "cubic-bezier(x1, y1, x2, y2) with x in 0..1; the curve runs from (0,0) to (1,1). Harness default: [0.2, 0, 0, 1].",
+      "examples": {
+        "pass": "[0.4, 0, 0.2, 1] gentle in and out",
+        "fail": "x1 = 1.4 (outside 0..1, invalid)"
+      },
+      "seeAlso": [
+        "easing"
+      ],
+      "source": "CSS Easing Functions Level 1"
+    },
+    {
+      "id": "transition",
+      "term": "Transition",
+      "aka": [
+        "css transition"
+      ],
+      "plain": "A smooth change between two states, such as a button colour on hover, instead of an instant jump.",
+      "technical": "A composite of duration, delay and timing function applied to named properties. Never transition: all.",
+      "examples": {
+        "pass": "transition: background-color 150ms var(--ease)",
+        "fail": "transition: all 0.3s"
+      },
+      "seeAlso": [
+        "motion-duration",
+        "easing"
+      ],
+      "source": "CSS Transitions Level 1"
+    },
+    {
+      "id": "spring",
+      "term": "Spring",
+      "aka": [
+        "spring easing",
+        "physics easing"
+      ],
+      "plain": "Motion that behaves like a real spring: it can overshoot and settle. Feels lively; use sparingly and keep it quiet.",
+      "technical": "A physics model with stiffness, damping and mass, sampled to keyframes. Not expressible as a cubic Bezier. DTCG 2025.10 has no spring type, so the harness treats it as an extension.",
+      "examples": {
+        "pass": "A small overshoot on a toggle thumb",
+        "fail": "A bouncing page-load hero"
+      },
+      "seeAlso": [
+        "easing"
+      ],
+      "source": "harness extension (not in DTCG 2025.10)"
+    },
+    {
+      "id": "modular-scale",
+      "term": "Modular scale",
+      "aka": [
+        "type ratio",
+        "scale ratio"
+      ],
+      "plain": "A set of sizes where each step is the same multiple of the one before, so sizes relate instead of being picked by eye.",
+      "technical": "size(k) = base x ratio^k. Common ratios: 1.2 minor third, 1.25 major third, 1.333 perfect fourth, 1.5 perfect fifth.",
+      "examples": {
+        "pass": "16 px at 1.25: 12.8, 16, 20, 25, 31.25",
+        "fail": "Sizes 13, 14, 15, 17, 18, 19 px that cannot be told apart"
+      },
+      "seeAlso": [
+        "type-scale"
+      ],
+      "source": "Tim Brown, More Meaningful Typography"
+    },
+    {
+      "id": "type-scale",
+      "term": "Type scale",
+      "aka": [
+        "font size scale",
+        "type ramp"
+      ],
+      "plain": "The small fixed set of font sizes a design uses. Few, clearly different sizes create hierarchy.",
+      "technical": "An ordered list of sizes, usually generated from a base and a ratio. Registry rule size-count flags too many distinct sizes.",
+      "examples": {
+        "pass": "Seven sizes from 12.8 to 48.8 px",
+        "fail": "Fourteen near-identical sizes on one page"
+      },
+      "seeAlso": [
+        "modular-scale",
+        "leading"
+      ],
+      "source": "rule:size-count"
+    },
+    {
+      "id": "leading",
+      "term": "Leading",
+      "aka": [
+        "line height",
+        "line spacing"
+      ],
+      "plain": "The space between lines of text. Too tight is hard to read; too loose breaks a paragraph into lines.",
+      "technical": "Unitless line-height multiplies the font size. Body text sits near 1.4 to 1.6; large headings near 1.1 to 1.25. WCAG 1.4.12 (AA) requires layouts to survive line-height raised to 1.5.",
+      "examples": {
+        "pass": "Body at 1.5, display at 1.1",
+        "fail": "Body at 1.0, lines touching"
+      },
+      "seeAlso": [
+        "tracking",
+        "type-scale"
+      ],
+      "source": "WCAG 2.2 SC 1.4.12 (AA)"
+    },
+    {
+      "id": "tracking",
+      "term": "Tracking",
+      "aka": [
+        "letter spacing"
+      ],
+      "plain": "The even gap added or removed between all letters in a run of text. Large headings usually want it slightly tighter.",
+      "technical": "CSS letter-spacing, in em so it scales with size. Positive for small caps and labels, slightly negative for display type.",
+      "examples": {
+        "pass": "-0.02em on a 48 px heading",
+        "fail": "0.2em on a body paragraph"
+      },
+      "seeAlso": [
+        "leading"
+      ],
+      "source": "CSS Text Level 3"
+    },
+    {
+      "id": "spacing-scale",
+      "term": "Spacing scale",
+      "aka": [
+        "space scale"
+      ],
+      "plain": "A short list of allowed gaps, such as 4, 8, 12, 16, 24, 32, 48, 64, so spacing feels consistent instead of arbitrary.",
+      "technical": "Multiples of a base unit: space.n = step x unit x density. The harness steps are 1, 2, 3, 4, 6, 8, 12, 16 units.",
+      "examples": {
+        "pass": "Padding 16, gap 8, section 64",
+        "fail": "Padding 13, gap 9, section 71"
+      },
+      "seeAlso": [
+        "density",
+        "design-token"
+      ],
+      "source": "engine/lib/tokens-gen.mjs"
+    },
+    {
+      "id": "density",
+      "term": "Density",
+      "aka": [
+        "spacing density"
+      ],
+      "plain": "How tightly things are packed. Dense suits expert tools; airy suits reading and marketing.",
+      "technical": "A multiplier on the spacing scale, 0.75 to 1.5 in the harness. Touch targets still need at least 24 by 24 CSS px.",
+      "examples": {
+        "pass": "1.25 on a long-form landing page",
+        "fail": "0.75 that shrinks buttons below 24 px"
+      },
+      "seeAlso": [
+        "spacing-scale"
+      ],
+      "source": "Lever space.density"
+    },
+    {
+      "id": "radius",
+      "term": "Corner radius",
+      "aka": [
+        "border radius",
+        "roundness"
+      ],
+      "plain": "How round the corners are. Sharp reads precise, round reads friendly. Pick one family and stay in it.",
+      "technical": "border-radius tokens: sm = r/2, md = r, lg = min(2r, 32), full = 9999. Mixed radii on one view are flagged by radius-mix.",
+      "examples": {
+        "pass": "8 px cards and 8 px inputs",
+        "fail": "4 px, 8 px, 12 px and 20 px on one screen"
+      },
+      "seeAlso": [
+        "design-token"
+      ],
+      "source": "Lever shape.radius"
+    },
+    {
+      "id": "hct",
+      "term": "HCT",
+      "aka": [
+        "Hue Chroma Tone",
+        "Material colour space"
+      ],
+      "plain": "A colour model built for design: hue is the colour, chroma is how vivid it is, tone is how light it is. Tone predicts contrast.",
+      "technical": "Google's HCT = CAM16 hue and chroma plus CIE L* as tone. Tone gaps predict contrast: 40 tones gives about 3:1 or a little more; 50 tones gives about 4.45:1 at worst, just under 4.5, so measure text pairs.",
+      "examples": {
+        "pass": "Tone 40 text on tone 98 surface",
+        "fail": "Picking colours by HSL lightness, which does not track contrast"
+      },
+      "seeAlso": [
+        "tone",
+        "chroma",
+        "hue"
+      ],
+      "source": "material-color-utilities"
+    },
+    {
+      "id": "tone",
+      "term": "Tone",
+      "aka": [
+        "HCT tone",
+        "CIE L*"
+      ],
+      "plain": "How light or dark a colour is on a 0 (black) to 100 (white) scale. Two colours far apart in tone have strong contrast.",
+      "technical": "The T of HCT, equal to CIE L*. Relative luminance is a function of tone, so a tone difference predicts contrast ratio.",
+      "examples": {
+        "pass": "Text at tone 10 on a tone 98 surface",
+        "fail": "Body text at tone 55 on a tone 98 surface (about 3.5:1)"
+      },
+      "seeAlso": [
+        "hct",
+        "contrast-ratio"
+      ],
+      "source": "material-color-utilities"
+    },
+    {
+      "id": "chroma",
+      "term": "Chroma",
+      "aka": [
+        "colour strength"
+      ],
+      "plain": "How vivid a colour is. Zero is grey. High chroma draws the eye, so spend it on the one thing that matters.",
+      "technical": "The C of HCT: distance from grey at a given hue and tone. Capped by what sRGB can show, so high chroma is impossible at tones near 0 and 100.",
+      "examples": {
+        "pass": "Neutral surfaces at chroma 4",
+        "fail": "Every card at chroma 80"
+      },
+      "seeAlso": [
+        "hct",
+        "hue"
+      ],
+      "source": "material-color-utilities"
+    },
+    {
+      "id": "hue",
+      "term": "Hue",
+      "aka": [
+        "colour angle"
+      ],
+      "plain": "The colour family itself: red, orange, green, blue. Measured as an angle around a colour wheel.",
+      "technical": "The H of HCT, 0 to 360 degrees from CAM16. Hue stays constant while tone and chroma change, which keeps a palette recognisably one colour.",
+      "examples": {
+        "pass": "Blue 265 at every tone",
+        "fail": "A \"blue\" that drifts purple as it darkens"
+      },
+      "seeAlso": [
+        "hct",
+        "tonal-palette"
+      ],
+      "source": "material-color-utilities"
+    },
+    {
+      "id": "seed-colour",
+      "term": "Seed colour",
+      "aka": [
+        "source colour",
+        "brand colour"
+      ],
+      "plain": "The one colour a palette grows from. Change it and the accent, tints and neutrals follow.",
+      "technical": "A hex colour whose hue and chroma feed HCT tonal palettes for accent and neutral roles. Lever colour.seed.",
+      "examples": {
+        "pass": "#2b59c3 seed gives blue accent and blue-tinted greys",
+        "fail": "Choosing eight unrelated colours by hand"
+      },
+      "seeAlso": [
+        "tonal-palette",
+        "hct"
+      ],
+      "source": "Lever colour.seed"
+    },
+    {
+      "id": "tonal-palette",
+      "term": "Tonal palette",
+      "aka": [
+        "tone ramp"
+      ],
+      "plain": "One hue and chroma shown at every lightness from black to white. You pick roles by tone, so contrast is known in advance.",
+      "technical": "A_t = the colour with the seed hue and chroma at tone t for t in 0..100. Roles such as surface (N98) and accent (A40) name a palette and a tone.",
+      "examples": {
+        "pass": "A40 on N98: tone gap 58, about 6:1",
+        "fail": "Lightening a hex by eye until it looks fine"
+      },
+      "seeAlso": [
+        "hct",
+        "tone",
+        "seed-colour"
+      ],
+      "source": "material-color-utilities"
+    },
+    {
+      "id": "surface-and-on-surface",
+      "term": "Surface and on-surface",
+      "aka": [
+        "background and foreground pairing"
+      ],
+      "plain": "Every background colour has a matching foreground made to sit on it. Colours are named in pairs so text can never land on the wrong one.",
+      "technical": "Roles come in pairs: surface/on-surface, accent/on-accent, danger/on-danger. Each pair is a declared contrast pair checked by the gate.",
+      "examples": {
+        "pass": "on-accent text on accent fill",
+        "fail": "White text on a pale accent fill"
+      },
+      "seeAlso": [
+        "contrast-ratio",
+        "accent"
+      ],
+      "source": "harness.contrastPairs"
+    },
+    {
+      "id": "accent",
+      "term": "Accent",
+      "aka": [
+        "accent colour",
+        "brand accent"
+      ],
+      "plain": "The one colour that says \"act here\" or \"this is the brand\". Used sparingly, it guides attention.",
+      "technical": "The accent role (A(t)) fills primary actions, links and focus rings. It must pass 3:1 against the surface as UI and carry on-accent text at 4.5:1.",
+      "examples": {
+        "pass": "One accent button per view",
+        "fail": "Accent on every card border, link, icon and badge"
+      },
+      "seeAlso": [
+        "surface-and-on-surface",
+        "seed-colour"
+      ],
+      "source": "Lever colour.accent-tone"
+    },
+    {
+      "id": "interaction-state",
+      "term": "Interaction state",
+      "aka": [
+        "state",
+        "element state"
+      ],
+      "plain": "How a control looks as it is used: resting, hovered, focused, pressed, disabled, invalid, loading. Each must look different.",
+      "technical": "The harness state matrix forces :hover, :focus-visible, :active and others through CDP and compares computed styles against rest; indistinct states raise state-indistinct.",
+      "examples": {
+        "pass": "Hover darkens the fill; disabled drops to 40% opacity",
+        "fail": "A button whose hover looks identical to rest"
+      },
+      "seeAlso": [
+        "focus-visible",
+        "capture-matrix"
+      ],
+      "source": "engine/lib/states.mjs"
+    },
+    {
+      "id": "focus-visible",
+      "term": "Focus visible",
+      "aka": [
+        "keyboard focus",
+        "focus-visible pseudo-class"
+      ],
+      "plain": "Showing which control the keyboard is on. Without it, keyboard users are lost.",
+      "technical": "The :focus-visible pseudo-class matches keyboard focus. WCAG 2.4.7 (AA) requires a visible indicator; 2.4.13 Focus Appearance (AAA) adds a minimum area and a 3:1 change.",
+      "examples": {
+        "pass": "button:focus-visible { outline: 2px solid var(--focus) }",
+        "fail": "*:focus { outline: none }"
+      },
+      "seeAlso": [
+        "focus-ring",
+        "interaction-state"
+      ],
+      "source": "WCAG 2.2 SC 2.4.7 (AA), 2.4.13 (AAA)"
+    },
+    {
+      "id": "focus-ring",
+      "term": "Focus ring",
+      "aka": [
+        "focus outline",
+        "focus indicator"
+      ],
+      "plain": "The outline drawn around the focused control. It has to stand out from both the control and the page behind it.",
+      "technical": "An outline of 2 CSS px or more with 3:1 contrast against adjacent colours (1.4.11 Non-text Contrast, AA). 2.4.13 Focus Appearance (AAA) asks for an area of the control perimeter x 2 px and a 3:1 change.",
+      "examples": {
+        "pass": "2 px accent ring, 2 px offset, 6:1 on the surface",
+        "fail": "1 px light grey ring on white"
+      },
+      "seeAlso": [
+        "focus-visible",
+        "contrast-ratio"
+      ],
+      "source": "WCAG 2.2 SC 1.4.11 (AA), 2.4.13 (AAA)"
+    },
+    {
+      "id": "viewport",
+      "term": "Viewport",
+      "aka": [
+        "screen size",
+        "page size"
+      ],
+      "plain": "The visible area of a page. The same page can look different at 390 px wide and 1440 px wide.",
+      "technical": "The layout viewport in CSS px (width x height) plus device pixel ratio. All studio and capture coordinates are CSS px of this viewport.",
+      "examples": {
+        "pass": "1280 x 800 at DPR 1",
+        "fail": "Judging a layout only at your own screen width"
+      },
+      "seeAlso": [
+        "capture-matrix"
+      ],
+      "source": "CSS Device Adaptation"
+    },
+    {
+      "id": "capture-matrix",
+      "term": "Capture matrix",
+      "aka": [
+        "capture cells",
+        "test matrix"
+      ],
+      "plain": "The set of snapshots a page is checked in: each screen size, light and dark, motion on or off. Every cell is one picture and one set of checks.",
+      "technical": "Cells = viewport x theme x motion x state, capped at 32. Each cell is id'd like 1280x800.light.no-preference.rest.",
+      "examples": {
+        "pass": "4 cells: light and dark, motion on and off",
+        "fail": "Checking one light screenshot and calling it done"
+      },
+      "seeAlso": [
+        "viewport",
+        "theme",
+        "reduced-motion"
+      ],
+      "source": "engine/lib/matrix.mjs"
+    },
+    {
+      "id": "gate",
+      "term": "Gate",
+      "aka": [
+        "check",
+        "quality gate"
+      ],
+      "plain": "An automatic check that must pass before work counts as done. Gates give a yes or no, not an opinion.",
+      "technical": "A deterministic engine command (lint, inspect, contrast, capture, states) that exits 0 on pass, 1 on a FAIL finding and 2 on a tool error.",
+      "examples": {
+        "pass": "node engine/contrast.mjs tokens.json exits 0",
+        "fail": "Saying \"looks accessible\" without running it"
+      },
+      "seeAlso": [
+        "finding",
+        "waiver"
+      ],
+      "source": "PHASE-1-CONTRACT.md"
+    },
+    {
+      "id": "finding",
+      "term": "Finding",
+      "aka": [
+        "issue",
+        "violation"
+      ],
+      "plain": "One problem a gate reports, with an id, a severity and a fix hint. Findings are evidence, not opinions.",
+      "technical": "{level: FAIL|WARN, id, message, fix?, width?, cell?, file?, line?}. The id is a registry rule id. FAIL makes the gate exit 1.",
+      "examples": {
+        "pass": "FAIL contrast: 3.2:1 on .caption (needs 4.5:1)",
+        "fail": "\"The text feels a bit faint\""
+      },
+      "seeAlso": [
+        "gate",
+        "severity-ceiling"
+      ],
+      "source": "engine/lib/contracts-types.mjs"
+    },
+    {
+      "id": "waiver",
+      "term": "Waiver",
+      "aka": [
+        "allow",
+        "exception"
+      ],
+      "plain": "A recorded, reasoned exception for one finding. Honest waivers say why; token-contrast cannot be waived at all.",
+      "technical": "Per rule: allow (flag or direction file), comment (harness-allow <id> -- <reason>, reason 3+ chars) or none. Only token-contrast is none; contrast and reduced-motion-ignored allow a reasoned waiver.",
+      "examples": {
+        "pass": "/* harness-allow gradient -- brand logo mark */",
+        "fail": "Deleting the gate or silencing every rule"
+      },
+      "seeAlso": [
+        "finding",
+        "gate"
+      ],
+      "source": "rules/precedence.md"
+    },
+    {
+      "id": "severity-ceiling",
+      "term": "Severity ceiling",
+      "aka": [
+        "severity cap"
+      ],
+      "plain": "The most serious level a rule may report on a kind of page. A rule can be a FAIL on a marketing page and only a warning, or off, in an app.",
+      "technical": "Registry severity.<surface> is the ceiling: a judge's FAIL is clamped to WARN where the ceiling is WARN, and dropped where it is null.",
+      "examples": {
+        "pass": "shadow: FAIL on marketing, null in app",
+        "fail": "Treating every WARN as ignorable noise"
+      },
+      "seeAlso": [
+        "surface-type",
+        "finding"
+      ],
+      "source": "rules/precedence.md"
+    },
+    {
+      "id": "surface-type",
+      "term": "Surface type",
+      "aka": [
+        "marketing or app",
+        "page kind"
+      ],
+      "plain": "Whether a page is a marketing page (persuade, a big hero) or an app (do work, dense and calm). The rules differ for each.",
+      "technical": "--surface marketing|app. It selects the severity ceiling per rule and which rules apply at all.",
+      "examples": {
+        "pass": "App screen judged with app rules",
+        "fail": "Judging a dashboard by landing-page hero rules"
+      },
+      "seeAlso": [
+        "severity-ceiling"
+      ],
+      "source": "PHASE-1-CONTRACT.md"
+    },
+    {
+      "id": "provenance",
+      "term": "Provenance",
+      "aka": [
+        "token source",
+        "where this came from"
+      ],
+      "plain": "A record of where a value came from and how sure we are, so nothing looks authoritative that was guessed.",
+      "technical": "harness.provenance {source, method, confidence 0..1, capturedAt?}. Parsed seeds are confidence 1; inferred values are lower.",
+      "examples": {
+        "pass": "source awesome-design-md:resend, method parsed",
+        "fail": "An unlabelled colour pasted in from a screenshot"
+      },
+      "seeAlso": [
+        "design-token"
+      ],
+      "source": "harness.provenance extension"
+    },
+    {
+      "id": "lever",
+      "term": "Lever",
+      "aka": [
+        "setting",
+        "design control"
+      ],
+      "plain": "One adjustable design decision, such as type ratio or corner radius, with a plain explanation and a known range.",
+      "technical": "An entry in knowledge/levers.json: id group.name, a control (range, enum or colour), default, and the tokens and gates it affects.",
+      "examples": {
+        "pass": "type.ratio 1.25 with a plain-words explanation",
+        "fail": "A hidden constant in a stylesheet"
+      },
+      "seeAlso": [
+        "dial",
+        "design-token"
+      ],
+      "source": "knowledge/levers.json"
+    },
+    {
+      "id": "dial",
+      "term": "Dial",
+      "aka": [
+        "shortcut",
+        "preset move"
+      ],
+      "plain": "A named shortcut that nudges several levers at once, such as calmer or denser. It always reports what it moved.",
+      "technical": "A set of per-lever moves (mul, add, set or stepOption), clamped to each range. A dial never replaces a lever.",
+      "examples": {
+        "pass": "calmer: slower motion, smaller ratio, looser density",
+        "fail": "A dial that changes values without saying which"
+      },
+      "seeAlso": [
+        "lever"
+      ],
+      "source": "knowledge/dials.json"
+    },
+    {
+      "id": "board",
+      "term": "Board",
+      "aka": [
+        "variant sheet",
+        "comparison board"
+      ],
+      "plain": "A single picture comparing a few variants side by side, each labelled with exactly what changed.",
+      "technical": "Up to 6 variants of one base, each a captioned cell with its changed levers and settings hash. Written to board.png and board.json.",
+      "examples": {
+        "pass": "Three radii side by side, captioned",
+        "fail": "Six unlabelled screenshots in a chat"
+      },
+      "seeAlso": [
+        "lever",
+        "capture-matrix"
+      ],
+      "source": "engine/lib/boards.mjs"
+    },
+    {
+      "id": "why-panel",
+      "term": "Why panel",
+      "aka": [
+        "explanation panel",
+        "glass box"
+      ],
+      "plain": "A short explanation attached to a result: plain words, the proper technical term, and a passing and failing example.",
+      "technical": "Three parts: plain (what it means), technical (the exact term and rule) and examples {pass, fail}. Comes from knowledge.why().",
+      "examples": {
+        "pass": "\"Contrast: how readable text is on its background\" plus 4.5:1",
+        "fail": "A bare number with no explanation"
+      },
+      "seeAlso": [
+        "lever",
+        "contrast-ratio"
+      ],
+      "source": "engine/lib/knowledge.mjs#why"
+    },
+    {
+      "id": "annotation",
+      "term": "Annotation",
+      "aka": [
+        "note",
+        "markup"
+      ],
+      "plain": "A boxed region on the page with a note, left by you or by Claude, that works as an instruction to read.",
+      "technical": "{aid, box, anchor, note, author: human|claude, at}. Stored in .harness/studio/state.json; human annotations are instructions.",
+      "examples": {
+        "pass": "Box on the header: \"too loud, quieter\"",
+        "fail": "A vague chat message saying \"fix the top\""
+      },
+      "seeAlso": [
+        "selector",
+        "viewport"
+      ],
+      "source": "harness.studio/1"
+    },
+    {
+      "id": "selector",
+      "term": "Selector",
+      "aka": [
+        "css selector"
+      ],
+      "plain": "A short address that picks out elements on a page, such as .button or [data-harness-id=\"card\"].",
+      "technical": "A CSS selector. The harness prefers #id, then [data-harness-id], then a tag:nth-of-type path up to 12 deep, checked unique.",
+      "examples": {
+        "pass": "[data-harness-id=\"button.primary\"]",
+        "fail": "div > div > div > span:nth-child(3)"
+      },
+      "seeAlso": [
+        "computed-style",
+        "specificity"
+      ],
+      "source": "CSS Selectors Level 4"
+    },
+    {
+      "id": "computed-style",
+      "term": "Computed style",
+      "aka": [
+        "resolved style"
+      ],
+      "plain": "The final value the browser actually uses for a property, after every rule and inheritance has been applied.",
+      "technical": "getComputedStyle(el): every property resolved to an absolute value. The inspector shows computed values and which token set them.",
+      "examples": {
+        "pass": "background-color: rgb(43, 89, 195)",
+        "fail": "Reading the authored value var(--x) and guessing"
+      },
+      "seeAlso": [
+        "selector",
+        "specificity"
+      ],
+      "source": "CSSOM"
+    },
+    {
+      "id": "specificity",
+      "term": "Specificity",
+      "aka": [
+        "css specificity"
+      ],
+      "plain": "The rule that decides which of two competing CSS rules wins. More specific selectors beat less specific ones, whatever the order.",
+      "technical": "Compared as (ids, classes/attributes/pseudo-classes, elements). #a beats .b beats div; ties go to the later rule; !important wins before specificity.",
+      "examples": {
+        "pass": ".card .title (0,2,0) beats .title (0,1,0)",
+        "fail": "A rule that \"does nothing\" because #nav .link outranks it"
+      },
+      "seeAlso": [
+        "selector",
+        "computed-style"
+      ],
+      "source": "CSS Cascade Level 4"
+    },
+    {
+      "id": "tell",
+      "term": "Tell",
+      "aka": [
+        "design tell",
+        "ai tell"
+      ],
+      "plain": "A recognisable sign that a design was made on autopilot, such as a purple gradient or three identical icon cards.",
+      "technical": "A named pattern in knowledge/tells.json. Some tells map to deterministic rules; the rest are judged by the reviewer from screenshots.",
+      "examples": {
+        "pass": "Spotting purple-gradient before shipping",
+        "fail": "Shipping the default look unquestioned"
+      },
+      "seeAlso": [
+        "finding",
+        "gate"
+      ],
+      "source": "knowledge/tells.json"
+    },
+    {
+      "id": "rule",
+      "term": "Rule",
+      "aka": [
+        "registry rule",
+        "check id"
+      ],
+      "plain": "One named check with one owner and one severity, such as contrast or side-tab. Every finding names the rule that raised it.",
+      "technical": "A registry record: id, layer (source|render|token|capture), origin, scope, severity per surface, waiver and impl export.",
+      "examples": {
+        "pass": "rules/registry/render.json: side-tab",
+        "fail": "An unlisted check that cannot be waived or traced"
+      },
+      "seeAlso": [
+        "finding",
+        "severity-ceiling"
+      ],
+      "source": "rules/registry/*.json"
+    },
+    {
+      "id": "measure",
+      "term": "Measure",
+      "aka": [
+        "line length",
+        "text width"
+      ],
+      "plain": "How many characters fit on one line of text. Too long is tiring to read; too short chops sentences.",
+      "technical": "Line length in characters per line, ideally 45 to 75. Set with max-width in ch units on the text container.",
+      "examples": {
+        "pass": "max-width: 65ch",
+        "fail": "Body text 160 characters wide"
+      },
+      "seeAlso": [
+        "leading",
+        "type-scale"
+      ],
+      "source": "rule:measure"
+    },
+    {
+      "id": "visual-hierarchy",
+      "term": "Visual hierarchy",
+      "aka": [
+        "hierarchy",
+        "emphasis order"
+      ],
+      "plain": "The order in which the eye reads a page. Size, weight, colour and space decide what comes first, second and last.",
+      "technical": "Relative emphasis from size, weight, contrast, position and whitespace. A page should have one clear focal point and few distinct levels.",
+      "examples": {
+        "pass": "One headline, one action, quieter detail",
+        "fail": "Five equally loud blocks"
+      },
+      "seeAlso": [
+        "type-scale",
+        "accent"
+      ],
+      "source": "rule:focal-point"
+    },
+    {
+      "id": "ledger",
+      "term": "Ledger",
+      "aka": [
+        "glossary ledger",
+        "term ledger"
+      ],
+      "plain": "A private record of which design terms you have already met, so Claude explains a new term once and then uses it plainly.",
+      "technical": "$HARNESS_HOME/ledger.json (default ~/.design-harness/ledger.json): per term firstSeen, seen count and lastContext. Written atomically.",
+      "examples": {
+        "pass": "Explain \"tone\" on first use, then use it",
+        "fail": "Re-defining the same term in every answer"
+      },
+      "seeAlso": [
+        "why-panel"
+      ],
+      "source": "harness.ledger/1"
+    },
+    {
+      "id": "vibe",
+      "term": "Vibe",
+      "aka": [
+        "mood board",
+        "image-derived theme"
+      ],
+      "plain": "A set of themes the harness works out from your images. It measures the pictures, then sets the same levers you could set by hand. It reads numbers, not feelings.",
+      "technical": "Command: vibe extract. Per image: resample, palette, mood vector; then a few candidate lever settings, each with a derivation (lever, value, inputs, rule, plain). Candidate c0 is always the default theme, for comparison. The candidates are suggestions; the token gate still runs.",
+      "examples": {
+        "pass": "Four candidates plus c0, each listing which numbers from the image moved which lever",
+        "fail": "Treating a candidate as \"what the photo means\": two people can want different themes from one photo"
+      },
+      "seeAlso": [
+        "palette",
+        "mood-vector",
+        "seed-colour",
+        "lever",
+        "gate"
+      ],
+      "source": "PHASE-3-CONTRACT.md 2.2"
+    },
+    {
+      "id": "pixel",
+      "term": "Pixel",
+      "aka": [
+        "picture element"
+      ],
+      "plain": "One dot of an image: a single colour. A photo is a grid of them, each stored as red, green, blue and sometimes alpha (see-through) numbers.",
+      "technical": "In RGBA data each pixel is 4 bytes, 0..255 each. A 512x384 image holds 196,608 pixels = 786,432 bytes. The harness never reads the file name or metadata for colour, only these bytes. The 64 px thumbnail keeps 64x48 = 3,072 of them.",
+      "examples": {
+        "pass": "512 x 384 = 196,608 pixels, 4 bytes each",
+        "fail": "Assuming a pixel is a physical size: it is only a position in a grid"
+      },
+      "seeAlso": [
+        "resampling",
+        "colour-depth"
+      ],
+      "source": "engine/lib/pixels.mjs"
+    },
+    {
+      "id": "resampling",
+      "term": "Resampling",
+      "aka": [
+        "downscaling",
+        "resizing"
+      ],
+      "plain": "Making an image bigger or smaller by working out new pixel colours from the old ones. The harness shrinks images before measuring, so a big photo costs the same as a small one.",
+      "technical": "resampleBox averages the exact area of source pixels under each new pixel, in linear light (not raw sRGB numbers), weighted by alpha. Averaging in the encoded numbers instead makes mixes too dark. Analysis size is 256 px on the long side, so fine detail below that is lost.",
+      "examples": {
+        "pass": "Black and white pixels averaged in linear light give 188 per channel (#bcbcbc), measured",
+        "fail": "Averaging black (0) and white (255) as raw numbers: 128, visibly darker than the true light mix"
+      },
+      "seeAlso": [
+        "pixel",
+        "oklab",
+        "vibe"
+      ],
+      "source": "engine/lib/pixels.mjs resampleBox"
+    },
+    {
+      "id": "palette",
+      "term": "Palette",
+      "aka": [
+        "colour palette",
+        "swatches"
+      ],
+      "plain": "A short list of the colours that stand for a whole image, each with how much of the image it covers. Twelve colours describe a photo of millions.",
+      "technical": "Here: K = 12 colours from median cut over all pixels, each with hex, share of the weight, salience, a neutral flag and its HCT and OKLCh numbers. Not the same as tonal-palette (the ramp of tones from one seed). Entries are averages of groups, so a palette colour may not occur in the image at all.",
+      "examples": {
+        "pass": "Orange 31%, blue 12%, off-white 9% ...",
+        "fail": "Reading a palette entry as a pixel from the picture: it is a group average"
+      },
+      "seeAlso": [
+        "colour-quantisation",
+        "median-cut",
+        "tonal-palette",
+        "seed-colour"
+      ],
+      "source": "PHASE-3-CONTRACT.md 2.3"
+    },
+    {
+      "id": "colour-quantisation",
+      "term": "Colour quantisation",
+      "aka": [
+        "quantization",
+        "colour reduction"
+      ],
+      "plain": "Squeezing millions of colours down to a few that stand in for the rest. Every pixel is assigned to the nearest of a few colours; the harness uses it to find an image's palette.",
+      "technical": "Partition the pixels' colours into K groups and replace each group by one representative. Distance is measured in OKLab so groups follow what looks alike. The loss is real: subtle gradients collapse into one entry. The harness quantises to find colours, never to redraw the image.",
+      "examples": {
+        "pass": "With #e8894a x3, #e4864a x1, #3a6ea5 x2, #ffffff x2 and K = 3, the two oranges (delta E 0.011) become one entry, #e7884a (measured)",
+        "fail": "Quantising in raw RGB: a group can mix colours that look different"
+      },
+      "seeAlso": [
+        "median-cut",
+        "palette",
+        "oklab"
+      ],
+      "source": "engine/lib/pixels.mjs medianCut"
+    },
+    {
+      "id": "median-cut",
+      "term": "Median cut",
+      "aka": [
+        "median-cut quantisation"
+      ],
+      "plain": "A way to find a palette: put all the image's colours in one box, repeatedly cut the box with the most spread where half its pixels (by weight) fall on each side, and use each final box's average as a palette colour.",
+      "technical": "A variant of Heckbert 1982 (he cut by range in RGB; here by weighted error in OKLab). Pick the box with the largest weighted error, cut along its widest axis (L, a or b) at the weighted median, repeat to K boxes, then 3 refinement passes (Lloyd). Ties break L, a, b. Heuristic: the result depends on K.",
+      "examples": {
+        "pass": "Points #e8894a x3, #e4864a x1, #3a6ea5 x2, #ffffff x2: K = 3 gives #e7884a (weight 4), #3a6ea5, #ffffff; K = 2 merges orange and blue into #b28474 (measured)",
+        "fail": "Asking for fewer colours than the image has distinct hues: colours blend into one that is not in the image"
+      },
+      "seeAlso": [
+        "colour-quantisation",
+        "palette",
+        "oklab"
+      ],
+      "source": "engine/lib/pixels.mjs medianCut"
+    },
+    {
+      "id": "oklab",
+      "term": "OKLab",
+      "aka": [
+        "Oklab"
+      ],
+      "plain": "A colour measuring system where equal number steps look like roughly equal colour changes. L is lightness, a is green to red, b is blue to yellow.",
+      "technical": "Ottosson 2020, public-domain matrices: sRGB to linear light, to cone-like LMS, cube root, then a 3x3 matrix. #e8894a is L 0.720, a 0.086, b 0.110. #808080 is L 0.600, a 0, b 0. It is an approximation fitted to data, not exact perception, and it ignores the viewing surround.",
+      "examples": {
+        "pass": "Grey #808080 has L 0.600, not 0.5: mid-grey in numbers is not mid-lightness",
+        "fail": "Judging \"similar\" colours by hex digits: #e8894a and #3a6ea5 differ by 0.307, #e8894a and #e8894b by 0.0009"
+      },
+      "seeAlso": [
+        "perceptual-colour-space",
+        "oklch",
+        "delta-e",
+        "lightness"
+      ],
+      "source": "Ottosson 2020; engine/lib/pixels.mjs"
+    },
+    {
+      "id": "perceptual-colour-space",
+      "term": "Perceptual colour space",
+      "aka": [
+        "uniform colour space"
+      ],
+      "plain": "A colour system built so that the distance between two colours in numbers matches how different they look. RGB is not one: equal number steps do not look like equal steps.",
+      "technical": "Goal: distances in the space approximate visible difference. OKLab and CIELAB give Euclidean distances; HCT is a design space built for predictable tone and contrast, and the harness does not use a distance in it. None is exact: they are fitted to small patches, so large areas, glare and surroundings fall outside. Measured: one 8-level step at #e8894a is 0.014 in red and 0.019 in green (OKLab).",
+      "examples": {
+        "pass": "Yellow #ffff00 and blue #0000ff are both 50% HSL lightness yet OKLab L is 0.968 against 0.452",
+        "fail": "Taking HSL lightness as brightness: yellow and blue are both \"50\" yet contrast is 8.00:1"
+      },
+      "seeAlso": [
+        "oklab",
+        "hct",
+        "lightness"
+      ],
+      "source": "Ottosson 2020"
+    },
+    {
+      "id": "oklch",
+      "term": "OKLCh",
+      "aka": [
+        "OKLab polar form"
+      ],
+      "plain": "OKLab written as lightness, chroma (how vivid) and hue (the angle round the colour wheel). Same colours as OKLab, in the form a person talks about.",
+      "technical": "L is unchanged. C = sqrt(a^2 + b^2). h = atan2(b, a) in degrees 0..360, and 0 when C < 0.0001, since grey has no hue. #e8894a: L 0.720, C 0.140, h 52.2. #3a6ea5: C 0.104, h 251.5. Hue angles are not the same as HCT hue: do not mix them.",
+      "examples": {
+        "pass": "#e8894a is hue 52.2 degrees in OKLCh; the harness warmth axis peaks near 55",
+        "fail": "Quoting an OKLCh hue as an HCT hue: they are different spaces and different numbers"
+      },
+      "seeAlso": [
+        "oklab",
+        "hue",
+        "chroma",
+        "hct"
+      ],
+      "source": "engine/lib/pixels.mjs lch"
+    },
+    {
+      "id": "lightness",
+      "term": "Lightness",
+      "aka": [
+        "L",
+        "perceived brightness"
+      ],
+      "plain": "How light or dark a colour looks, from 0 (black) to 1 (white) in OKLab. The overall lightness of an image sets how light the image feels.",
+      "technical": "OKLab L, not HCT tone (CIE L* on 0..100) and not HSL L; the three disagree. The mood axis lightness is the alpha-weighted mean L of the image. Contrast ratio still needs relative luminance: L alone does not give a WCAG number.",
+      "examples": {
+        "pass": "#808080 has OKLab L 0.600; #767676 (4.54:1 on white) has 0.566",
+        "fail": "Equating L with tone: different scales and different spaces"
+      },
+      "seeAlso": [
+        "oklab",
+        "tone",
+        "mood-vector",
+        "relative-luminance"
+      ],
+      "source": "PHASE-3-CONTRACT.md 2.3"
+    },
+    {
+      "id": "delta-e",
+      "term": "Delta E",
+      "aka": [
+        "colour difference",
+        "dE"
+      ],
+      "plain": "One number for how different two colours look. Near zero means they look the same; larger means easier to tell apart.",
+      "technical": "Here the distance between two OKLab points, sqrt(dL^2 + da^2 + db^2). Other formulas (CIEDE2000) give other numbers: do not compare across. Harness thresholds: 0.08 for two seeds to count as distinct. Measured: orange #e8894a vs blue #3a6ea5 = 0.307; #ff0000 vs #00ff00 = 0.520 (#ff0000 vs CSS green #008000 = 0.381).",
+      "examples": {
+        "pass": "Two seeds with delta E 0.307 count as distinct (limit 0.08)",
+        "fail": "Reusing a threshold from another formula or space: a limit tuned for CIELAB does not carry over to OKLab"
+      },
+      "seeAlso": [
+        "oklab",
+        "seed-colour",
+        "vibe"
+      ],
+      "source": "engine/lib/pixels.mjs deltaE"
+    },
+    {
+      "id": "saliency",
+      "term": "Saliency",
+      "aka": [
+        "salience"
+      ],
+      "plain": "How much a colour is likely to catch the eye. Ours is a rough guess: colours near the centre and colourful ones score higher. It is not a model of how people actually look.",
+      "technical": "Proxy only: an entry's weight share inside the central 50% box x (1 + C/0.15), normalised. No face, text or object detection, no learned attention. An off-centre flower is weighted down for being off-centre; a saturated sofa in the middle is weighted up. It enters the seed score as a multiplier from 0.5 to 1, enough to outweigh a larger area.",
+      "examples": {
+        "pass": "An entry with 40% of the central box and C 0.14 scores 0.40 x 1.93 = 0.77 before normalising",
+        "fail": "Calling it \"what viewers notice\": nothing here was tested on viewers"
+      },
+      "seeAlso": [
+        "palette",
+        "seed-colour",
+        "chroma",
+        "dominant-colour"
+      ],
+      "source": "PHASE-3-CONTRACT.md 2.3; a proxy, not an attention model"
+    },
+    {
+      "id": "dominant-colour",
+      "term": "Dominant colour",
+      "aka": [
+        "main colour"
+      ],
+      "plain": "The palette colour the harness picks as the theme seed. Area counts, but so do how vivid it is, how near the centre it sits and whether it is too dark to read as a colour; grey backgrounds are passed over.",
+      "technical": "seed score = sqrt(share) x min(chroma,60)/60 x (0.5 + 0.5 x salience) x clamp((tone-10)/20, 0, 1), over entries with chroma at least 16. Below tone 10 a colour reads as black. 31% amber, chroma 48, salience 0.44, tone 64: 0.321. The same at tone 15: 0.080. 60% dull colour, chroma 20, salience 0.5: 0.194.",
+      "examples": {
+        "pass": "Amber at 31% (0.321) beats a 60% dull area (0.194); the same amber at tone 15 falls to 0.080",
+        "fail": "Assuming the largest area wins: a big wall loses to a smaller vivid, central, light-enough sofa"
+      },
+      "seeAlso": [
+        "palette",
+        "saliency",
+        "chroma",
+        "seed-colour",
+        "tone"
+      ],
+      "source": "PHASE-3-CONTRACT.md 2.3"
+    },
+    {
+      "id": "mood-vector",
+      "term": "Mood vector",
+      "aka": [
+        "mood",
+        "vibe axes"
+      ],
+      "plain": "Six numbers from 0 to 1 that describe an image: lightness, contrast, energy, warmth, density, roundness. They are measured, not guessed, and they set levers.",
+      "technical": "Per image, averaged with equal weight over images, clamped 0..1, rounded to 0.001. Names are the harness's own labels for formulas, not psychology: \"energy\" is only mean chroma / 0.15. It averages over area, so a thin bright grid on black scores about 0.30 (contract A15b). Two images with equal numbers need not feel alike.",
+      "examples": {
+        "pass": "Chroma 0.14 gives energy 0.93; grey gives energy 0",
+        "fail": "Reading \"calm\" or \"tense\" into a number: the formula measures colour and edges only"
+      },
+      "seeAlso": [
+        "warmth",
+        "saturation",
+        "edge-density",
+        "orientation-entropy",
+        "lightness"
+      ],
+      "source": "PHASE-3-CONTRACT.md 2.3"
+    },
+    {
+      "id": "warmth",
+      "term": "Warmth",
+      "aka": [
+        "colour temperature"
+      ],
+      "plain": "How far an image leans to the orange-red side of the colour wheel rather than the blue side. 0 is all blue, 1 is all orange, 0.5 is neutral.",
+      "technical": "warmth = 0.5 + 0.5 x sum(C x cos(h - 55 deg)) / sum(C), with 0.5 if the total chroma is under 0.02 per pixel. Single colours: #e8894a gives 0.999, #3a6ea5 gives 0.021, grey 0.5. Hue 55 is a chosen reference, not a law: purples and greens land in between.",
+      "examples": {
+        "pass": "An orange image reads about 0.99; a blue one about 0.02",
+        "fail": "Treating warmth as photographic white balance: it is only the hue direction of the colourful pixels"
+      },
+      "seeAlso": [
+        "mood-vector",
+        "oklch",
+        "hue",
+        "seed-colour"
+      ],
+      "source": "PHASE-3-CONTRACT.md 2.3"
+    },
+    {
+      "id": "saturation",
+      "term": "Saturation",
+      "aka": [
+        "HSL saturation"
+      ],
+      "plain": "How strong a colour is compared with grey. The same word is used by two different systems, so check which one: HSL saturation is a hex-digit trick, chroma is the perceptual measure.",
+      "technical": "HSL saturation is (max - min) / (1 - |2l - 1|) from the RGB numbers and ignores how bright a hue looks. The harness mood axis called energy uses OKLab chroma instead (mean C / 0.15). Yellow #ffff00 and blue #0000ff are both 100% HSL saturation; their OKLab chroma is 0.211 against 0.313.",
+      "examples": {
+        "pass": "#e8894a: HSL saturation 77% but OKLab chroma 0.140",
+        "fail": "Equating \"100% saturated\" with equally vivid: the yellow and the blue above differ by half again"
+      },
+      "seeAlso": [
+        "chroma",
+        "oklch",
+        "mood-vector"
+      ],
+      "source": "engine/lib/pixels.mjs lch"
+    },
+    {
+      "id": "edge-density",
+      "term": "Edge density",
+      "aka": [
+        "detail",
+        "busyness"
+      ],
+      "plain": "How much of an image is edges where light changes sharply. A busy scene has many; a calm sky or plain wall has few. It sets how loose or tight the spacing is.",
+      "technical": "Mean Sobel gradient magnitude of OKLab L, divided by 0.08 and clamped 0..1 (density axis). Per contract, density 0.5 gives space.density 1.3 - 0.25 = 1.05. Counts only lightness edges: a red and green of equal L look flat to this measure. Noise or JPEG blocks count as edges.",
+      "examples": {
+        "pass": "Mean gradient 0.04 gives density 0.5, spacing 1.05",
+        "fail": "Reading a noisy photo as detailed: sensor noise also raises the number"
+      },
+      "seeAlso": [
+        "mood-vector",
+        "density",
+        "orientation-entropy"
+      ],
+      "source": "PHASE-3-CONTRACT.md 2.3"
+    },
+    {
+      "id": "orientation-entropy",
+      "term": "Orientation entropy",
+      "aka": [
+        "edge direction spread"
+      ],
+      "plain": "How varied the directions of the edges are. Edges that point every way, like branches, score high; only straight up-and-down and side-to-side edges, like buildings, score low.",
+      "technical": "Histogram of edge angle (mod 180 degrees) in 8 bins, weighted by gradient strength; entropy / ln 8 gives 0..1. Only horizontal and vertical edges fill 2 bins: ln 2 / ln 8 = 0.333; all 8 equal gives 1; one bin gives 0. Roundness is this number; shape.radius = round(2 + 18 x roundness): 0.333 gives 8 px.",
+      "examples": {
+        "pass": "Edges in 2 equal bins give roundness 0.333, radius 8",
+        "fail": "Treating it as proof of \"organic\": a diagonal-only photo has one bin and scores 0"
+      },
+      "seeAlso": [
+        "mood-vector",
+        "radius",
+        "edge-density"
+      ],
+      "source": "PHASE-3-CONTRACT.md 2.3"
+    },
+    {
+      "id": "colour-depth",
+      "term": "Colour depth",
+      "aka": [
+        "bit depth",
+        "256-colour palette",
+        "truecolor"
+      ],
+      "plain": "How many different colours a terminal can show. Truecolor shows millions. Older or limited terminals show only 256, so the harness must pick the nearest one.",
+      "technical": "Truecolor: 24 bits, 16.7 million. The 256 mode: the harness uses the 240 fixed entries (216 colour cube plus 24 greys), not the 16 that users can retheme. Measured nearest: #e8894a becomes #d7875f (index 173, delta E 0.037); #3a6ea5 becomes #5f5faf (0.062); #808080 stays exact.",
+      "examples": {
+        "pass": "#808080 maps to itself (index 244); #3a6ea5 moves 0.062 in OKLab",
+        "fail": "Assuming the terminal supports truecolor: ask by test (colourtest), do not guess"
+      },
+      "seeAlso": [
+        "half-block",
+        "pixel",
+        "delta-e"
+      ],
+      "source": "engine/lib/pixels.mjs nearestXterm; checklist V2"
+    },
+    {
+      "id": "half-block",
+      "term": "Half-block cell rendering",
+      "aka": [
+        "half-block",
+        "terminal pixels"
+      ],
+      "plain": "A trick for drawing pictures in a terminal. Each character cell shows two pixels, one above the other, using the half-block character, so a grid of cells acts like a low-resolution image.",
+      "technical": "The cell is U+2580 (upper half block): foreground colour paints the top half, background the bottom. Equal halves use a space. An 80 x 24 pane gives 80 x 48 pixels. Whether halves touch without gaps depends on the terminal and font, still to be checked in Terminal.app (V1).",
+      "examples": {
+        "pass": "80 columns x 24 rows = 80 x 48 coloured pixels",
+        "fail": "Expecting photo detail: 80 x 48 shows blocks of colour only"
+      },
+      "seeAlso": [
+        "colour-depth",
+        "pixel",
+        "contact-sheet"
+      ],
+      "source": "PHASE-3-CONTRACT.md 2.4"
+    },
+    {
+      "id": "contact-sheet",
+      "term": "Contact sheet",
+      "aka": [
+        "sheet",
+        "overview grid"
+      ],
+      "plain": "One image that lays out every candidate theme side by side, light and dark, with its name, id and settings code, so you can compare them at a glance.",
+      "technical": "sheet.png: one PNG per image set, a grid captioned with name, cid and settings hash, light and dark per row, built from the same renders as the individual previews. It is a picture of the settings, not extra data: judge colour on a real screen, not in a screenshot.",
+      "examples": {
+        "pass": "Five candidates (c0 to c4) in two rows, light above dark",
+        "fail": "Treating the sheet as the source of truth: the settings files are"
+      },
+      "seeAlso": [
+        "vibe",
+        "why-panel",
+        "lever"
+      ],
+      "source": "PHASE-3-CONTRACT.md 2.1"
+    },
+    {
+      "id": "contrast-floor",
+      "term": "Contrast floor",
+      "aka": [
+        "accessibility floor"
+      ],
+      "plain": "The rule that no theme, however pretty, may have text too faint to read. If an image-derived theme fails, the harness moves the accent tone and says exactly what it changed.",
+      "technical": "Every theme x contrast mode runs the token gate (28 checks). On a failure, accent tone moves 5 toward passing, up to 3 times, then neutral tint -4; each step is recorded with pair and ratio. Measured for seed #e8894a, white on accent: tone 50 4.47:1 fails 4.5; tone 45 5.37:1 passes. A 50-tone gap is not a guarantee.",
+      "examples": {
+        "pass": "Accent tone 50 gives 4.47:1 (fail), 45 gives 5.37:1 (pass), seed #e8894a",
+        "fail": "Silent fixes: the theme must say which lever moved and by how much"
+      },
+      "seeAlso": [
+        "contrast-ratio",
+        "gate",
+        "tone",
+        "hct"
+      ],
+      "source": "PHASE-3-CONTRACT.md 2.3; PHASE-2-CONTRACT.md A15"
+    }
+  ]
+}

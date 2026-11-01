@@ -1,0 +1,308 @@
+{
+  "schema": "harness.rule-notes/1",
+  "notes": {
+    "side-tab": {
+      "plain": "A card with one thick coloured stripe on a single edge. It is the most recognisable sign of a generated interface.",
+      "technical": "FAIL when an element at least 120 x 48 px has exactly one border of 3 px or more with a saturated colour and nothing on the opposite side. Mark state with a badge, tint or icon instead.",
+      "terms": [
+        "accent"
+      ],
+      "examples": {
+        "pass": "fixtures/impeccable/side-tab.pass.html",
+        "fail": "fixtures/impeccable/side-tab.fail.html"
+      }
+    },
+    "border-accent-on-rounded": {
+      "plain": "A thick coloured edge on one side of a rounded box. The straight stripe fights the curve of the corner.",
+      "technical": "WARN when a one-sided accent border sits on an element with a corner radius of 8 px or more. Drop the border or the radius.",
+      "terms": [
+        "accent",
+        "radius"
+      ],
+      "examples": {
+        "pass": "fixtures/impeccable/border-accent-on-rounded.pass.html",
+        "fail": "fixtures/impeccable/border-accent-on-rounded.fail.html"
+      }
+    },
+    "nested-cards": {
+      "plain": "A card inside a card. Each extra frame adds noise and fake depth without adding meaning.",
+      "technical": "WARN when a card-like container (radius, padding of 12 px or more, and a border, fill or side border) has another card ancestor within three levels. Buttons and other controls do not count as cards.",
+      "terms": [
+        "visual-hierarchy",
+        "radius"
+      ],
+      "examples": {
+        "pass": "fixtures/impeccable/nested-cards.pass.html",
+        "fail": "fixtures/impeccable/nested-cards.fail.html"
+      }
+    },
+    "justified-text": {
+      "plain": "Body text stretched to both edges leaves uneven word gaps that read as rivers of white.",
+      "technical": "WARN when text-align: justify is set on a block with 80 or more characters of its own text. Use text-align: left, or hyphens: auto with lang set.",
+      "terms": [
+        "measure",
+        "leading"
+      ],
+      "examples": {
+        "pass": "fixtures/impeccable/justified-text.pass.html",
+        "fail": "fixtures/impeccable/justified-text.fail.html"
+      }
+    },
+    "skipped-heading": {
+      "plain": "Heading levels that jump, such as h2 straight to h4, break the outline that screen readers and search engines follow.",
+      "technical": "WARN when a heading is more than one level deeper than the one before it in document order. Choose the level for structure and set the size with CSS.",
+      "terms": [
+        "visual-hierarchy",
+        "wcag"
+      ],
+      "examples": {
+        "pass": "fixtures/impeccable/skipped-heading.pass.html",
+        "fail": "fixtures/impeccable/skipped-heading.fail.html"
+      }
+    },
+    "token-contrast": {
+      "plain": "A pair of colours in your tokens that is too faint to read, in at least one theme or contrast mode.",
+      "technical": "FAIL, unwaivable. Every declared pair is resolved in every mode permutation and measured: 4.5:1 for body text, 3:1 for large text and UI parts. The report names the permutation and the pair.",
+      "terms": [
+        "contrast-ratio",
+        "permutation",
+        "wcag",
+        "design-token"
+      ],
+      "examples": {
+        "pass": "contracts/tokens.example.json",
+        "fail": "fixtures/tokens/fail-dark.json"
+      }
+    },
+    "reduced-motion-ignored": {
+      "plain": "Something keeps moving after the system asked for less motion.",
+      "technical": "FAIL. The capture reruns each cell with prefers-reduced-motion: reduce; anything still moving (transform, position or size, or transition: all) for more than 10 ms fails, by CSS or Web Animations. Opacity and colour changes are exempt.",
+      "terms": [
+        "reduced-motion",
+        "motion-duration",
+        "capture-matrix"
+      ],
+      "examples": {
+        "pass": "fixtures/capture/motion-respects.html",
+        "fail": "fixtures/capture/motion-ignores.html"
+      }
+    },
+    "theme-unresponsive": {
+      "plain": "The page looks the same whether the system is set to light or dark, so it ignores a preference people chose.",
+      "technical": "WARN. The capture compares a fingerprint of computed colours (text, background, border, fill, color-scheme on up to 300 elements) in the light and dark cells; identical fingerprints mean prefers-color-scheme is not honoured. A page that stores a theme but starts from the system setting passes.",
+      "terms": [
+        "theme",
+        "mode",
+        "capture-matrix"
+      ],
+      "examples": {
+        "pass": "fixtures/capture/theme-aware.html"
+      }
+    },
+    "contrast": {
+      "plain": "Some text is too faint against its background to read comfortably.",
+      "technical": "FAIL when text is under 2.6:1 (unreadable); WARN above that but below the WCAG need of 4.5:1 body or 3:1 large text. Measured on the rendered page against the real background behind each text run.",
+      "terms": [
+        "contrast-ratio",
+        "wcag",
+        "relative-luminance"
+      ]
+    },
+    "grey-body": {
+      "plain": "Body copy set in a soft grey that looks refined and tires the eye.",
+      "technical": "WARN when the main running text is under 7:1 against its ground. Keep the muted ink for secondary notes only.",
+      "terms": [
+        "contrast-ratio",
+        "surface-and-on-surface"
+      ]
+    },
+    "gradient": {
+      "plain": "Any gradient fill. Generated pages lean on them for atmosphere, and they quickly look alike.",
+      "technical": "FAIL when a gradient fill is found. The one allowed gradient is a neutral scrim over a photo to keep text legible.",
+      "terms": [
+        "hue",
+        "chroma"
+      ]
+    },
+    "emoji": {
+      "plain": "Emoji in the interface, usually as icons or bullets. They look different on every platform and cannot be themed.",
+      "technical": "FAIL when emoji appear in visible page text. Use words, a real icon set or imagery.",
+      "terms": []
+    },
+    "shadow": {
+      "plain": "Cards lifted off the page by a soft shadow when they are just sitting on it.",
+      "technical": "FAIL on marketing pages for at-rest shadows; off in apps. Separate surfaces with a tone step or space and keep shadows for things that really float: menus, dialogs, sticky bars.",
+      "terms": [
+        "surface-and-on-surface"
+      ]
+    },
+    "heavy-shadow": {
+      "plain": "Panels in an app drawn so heavy they look like floating sheets.",
+      "technical": "FAIL in apps when a panel shadow is heavy enough to read as floating. Panels sit on the ground: use a fill one step from the ground or a hairline.",
+      "terms": [
+        "surface-and-on-surface",
+        "visual-hierarchy"
+      ]
+    },
+    "glass": {
+      "plain": "Blurred translucent surfaces layered over a background. One quiet bar is fine; many cards is a tell.",
+      "technical": "WARN on marketing pages when more than one element uses a backdrop blur.",
+      "terms": [
+        "surface-and-on-surface"
+      ]
+    },
+    "hairline": {
+      "plain": "Thin grey lines drawn round and between everything to organise the page.",
+      "technical": "FAIL when two or more hairline rules or dividers are found on a marketing page, WARN for one. Use fill steps, space and type to separate.",
+      "terms": [
+        "visual-hierarchy"
+      ]
+    },
+    "eyebrow": {
+      "plain": "A tiny uppercase label above a heading, repeated on every section until it becomes furniture.",
+      "technical": "FAIL when eyebrow or kicker labels sit above headings. Say it in the heading, or drop the label.",
+      "terms": [
+        "tracking",
+        "visual-hierarchy"
+      ]
+    },
+    "size-count": {
+      "plain": "Too many different font sizes, so no size means anything.",
+      "technical": "WARN above 9 distinct font sizes. About five carry a page: display, heading, lead, body, small.",
+      "terms": [
+        "type-scale",
+        "modular-scale"
+      ]
+    },
+    "body-size": {
+      "plain": "Body text that is too small to read comfortably.",
+      "technical": "FAIL under 15 px; WARN under 16 px on desktop. Body copy sits at 16 to 20 px.",
+      "terms": [
+        "type-scale",
+        "wcag"
+      ]
+    },
+    "measure": {
+      "plain": "Lines of text so long the eye loses its place going back to the start of the next line.",
+      "technical": "WARN when the longest paragraph runs more than 88 characters per line on desktop. Aim for 45 to 75 with max-width in ch.",
+      "terms": [
+        "measure",
+        "leading"
+      ]
+    },
+    "font-count": {
+      "plain": "Too many typefaces on one page. Each added family dilutes the voice and slows loading.",
+      "technical": "FAIL above three families, WARN at three. Two at most: one display and one text, and often one is enough.",
+      "terms": [
+        "type-scale"
+      ]
+    },
+    "font-fallback": {
+      "plain": "A font was named but did not load, so the browser quietly used a stand-in. What you reviewed is not the design.",
+      "technical": "WARN when a declared typeface is not loaded and a fallback renders. Fix the URL or family name.",
+      "terms": [
+        "type-scale"
+      ]
+    },
+    "focal-point": {
+      "plain": "The first screen has nothing that leads: no big headline and no dominant picture.",
+      "technical": "FAIL on marketing pages when the largest type is small and no single picture fills a third of the viewport. Make one thing lead.",
+      "terms": [
+        "visual-hierarchy",
+        "viewport"
+      ]
+    },
+    "small-text": {
+      "plain": "Blocks of text so small that many people cannot read them.",
+      "technical": "FAIL when more than three text blocks are under 13 px, WARN for one to three. Nothing meant to be read goes below 13 px.",
+      "terms": [
+        "type-scale",
+        "wcag"
+      ]
+    },
+    "tiny-text": {
+      "plain": "Labels and data set in near-microscopic type inside an app.",
+      "technical": "FAIL when more than two text blocks are under 11 px; WARN when under-13 px text exceeds 45% of the text.",
+      "terms": [
+        "type-scale",
+        "density"
+      ]
+    },
+    "side-scroll": {
+      "plain": "A row that scrolls sideways with its content cut at the edge. Most people read the cut as clipped, not scrollable.",
+      "technical": "WARN when a row scrolls horizontally with content beyond its edge. Wrap it onto more lines or end it with a clear scroll cue.",
+      "terms": [
+        "viewport"
+      ]
+    },
+    "overflow": {
+      "plain": "The whole page scrolls sideways at this screen width, which almost always means something is too wide.",
+      "technical": "FAIL when horizontal overflow exists at the tested viewport. The report names the widest offending elements.",
+      "terms": [
+        "viewport",
+        "capture-matrix"
+      ]
+    },
+    "tabular": {
+      "plain": "Numbers in tables that do not line up, so columns of figures are hard to compare.",
+      "technical": "WARN when fewer than half of six or more figures use tabular numerals. Set font-variant-numeric: tabular-nums on table cells and figures.",
+      "terms": [
+        "type-scale",
+        "visual-hierarchy"
+      ]
+    },
+    "rainbow-chart": {
+      "plain": "A chart that uses every colour in the paintbox, so no series stands out and colour stops meaning anything.",
+      "technical": "FAIL above six hues in charts, WARN above four. One accent for the series that matters, neutrals for the rest.",
+      "terms": [
+        "hue",
+        "accent",
+        "chroma"
+      ]
+    },
+    "colour-sprawl": {
+      "plain": "Too much of the app screen is strongly coloured, so colour no longer signals anything.",
+      "technical": "WARN when more than 12% of the first screen is strongly coloured. Keep the screen neutral and spend colour on data and status.",
+      "terms": [
+        "chroma",
+        "accent"
+      ]
+    },
+    "radius-mix": {
+      "plain": "Panels with many different corner radii look unplanned.",
+      "technical": "WARN above three distinct radii on panels. One radius for panels, one for controls, full round only for pills and avatars.",
+      "terms": [
+        "radius",
+        "design-token"
+      ]
+    },
+    "placeholder-data": {
+      "plain": "Obvious stand-in content on screen: lorem ipsum, \"John Doe\", numbers that do not add up.",
+      "technical": "FAIL when placeholder names or text are found. Use believable data for this product, with units and dates in order.",
+      "terms": []
+    },
+    "icon-cards": {
+      "plain": "A row of identical cards each topped with a small icon and two lines of text.",
+      "technical": "FAIL when a row of structurally identical cards each topped by a small icon is found. Replace it with one composed section built around a single idea.",
+      "terms": [
+        "visual-hierarchy"
+      ]
+    },
+    "all-centred": {
+      "plain": "Nearly everything is centred, so the eye has no edge to follow down the page.",
+      "technical": "WARN when over 72% of the text is centre-aligned on a page with four or more headings. Centre one moment; anchor the rest to a shared left edge.",
+      "terms": [
+        "visual-hierarchy",
+        "measure"
+      ]
+    },
+    "default-link": {
+      "plain": "Links still showing the browser default blue and purple, so they look unstyled.",
+      "technical": "WARN when the default link colours (#0000ee, #551a8b) are rendered. Style every link and mark it with more than colour.",
+      "terms": [
+        "accent",
+        "contrast-ratio"
+      ]
+    }
+  }
+}

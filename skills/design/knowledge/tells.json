@@ -1,0 +1,334 @@
+{
+  "schema": "harness.tells/1",
+  "tells": [
+    {
+      "id": "purple-gradient",
+      "plain": "Indigo-to-violet gradients on a hero or button: the colour of countless generated landing pages.",
+      "technical": "Flagged as any gradient fill (gradient, gradient-src) and as indigo or violet palettes (palette-purple, purple-src). A neutral scrim over a photo is the one allowed gradient.",
+      "check": "rule",
+      "ruleIds": [
+        "gradient",
+        "gradient-src",
+        "palette-purple",
+        "purple-src"
+      ],
+      "terms": [
+        "hue"
+      ]
+    },
+    {
+      "id": "gradient-text",
+      "plain": "Headline words filled with a colour gradient so they glow.",
+      "technical": "Text clipped to a gradient background. Flat ink carries the message; the effect adds no information and costs contrast.",
+      "check": "rule",
+      "ruleIds": [
+        "gradient-text",
+        "gradient-text-src"
+      ],
+      "terms": [
+        "contrast-ratio"
+      ]
+    },
+    {
+      "id": "emoji-as-icons",
+      "plain": "Emoji standing in for icons or bullets: rockets, sparkles and checkmarks in headings.",
+      "technical": "Emoji codepoints in visible text or source. Emoji render differently per platform and cannot be themed; use words or a real icon set.",
+      "check": "rule",
+      "ruleIds": [
+        "emoji",
+        "emoji-src"
+      ],
+      "terms": []
+    },
+    {
+      "id": "glass-everywhere",
+      "plain": "Frosted translucent cards stacked over blurred backgrounds.",
+      "technical": "More than one backdrop-filter blur surface on a marketing page, or any in an app. One blurred sticky bar is tolerable.",
+      "check": "rule",
+      "ruleIds": [
+        "glass",
+        "glass-src",
+        "app-glass"
+      ],
+      "terms": []
+    },
+    {
+      "id": "floating-shadow-cards",
+      "plain": "Every card lifted by a soft shadow, so nothing sits on the page.",
+      "technical": "At-rest box-shadows on marketing pages and heavy panel shadows in apps. Separate surfaces by a tone step or space; keep shadows for things that really float.",
+      "check": "rule",
+      "ruleIds": [
+        "shadow",
+        "shadow-src",
+        "heavy-shadow"
+      ],
+      "terms": [
+        "surface-and-on-surface"
+      ]
+    },
+    {
+      "id": "side-stripe-card",
+      "plain": "A card with one thick coloured stripe down its left edge.",
+      "technical": "A border of 3 px or more on a single side, with the others thin or absent. Reads as a generated callout; use a tint or an icon.",
+      "check": "rule",
+      "ruleIds": [
+        "side-tab",
+        "border-accent-on-rounded"
+      ],
+      "terms": [
+        "accent"
+      ]
+    },
+    {
+      "id": "cards-in-cards",
+      "plain": "A card sitting inside another card, each with its own border and padding.",
+      "technical": "A container with card styling (background, radius, border or shadow) nested inside another. Flatten the inner one with spacing, type or a tone change.",
+      "check": "rule",
+      "ruleIds": [
+        "nested-cards"
+      ],
+      "terms": []
+    },
+    {
+      "id": "icon-card-grid",
+      "plain": "Three or four identical cards, each topped with a small icon, a title and two lines.",
+      "technical": "A row of structurally identical siblings each led by a small icon, plus icon chips and tiles. Replace with one composed section built around a single idea.",
+      "check": "rule",
+      "ruleIds": [
+        "icon-cards",
+        "icon-chips",
+        "icon-tiles"
+      ],
+      "terms": [
+        "visual-hierarchy"
+      ]
+    },
+    {
+      "id": "eyebrow-label",
+      "plain": "A tiny uppercase label above every heading (\"FEATURES\", \"HOW IT WORKS\").",
+      "technical": "Short, small, letter-spaced text immediately above a heading, rendered or in source. One per page is a choice; one per section is a template.",
+      "check": "rule",
+      "ruleIds": [
+        "eyebrow",
+        "eyebrow-src",
+        "micro-label",
+        "micro-label-src"
+      ],
+      "terms": [
+        "tracking"
+      ]
+    },
+    {
+      "id": "default-font-stack",
+      "plain": "The same handful of fonts used by every generated page, or a font that failed to load.",
+      "technical": "Source scan of a fixed list of overused families (default-font-src) plus a render check that a declared font is not rendering as its fallback.",
+      "check": "rule",
+      "ruleIds": [
+        "default-font-src",
+        "font-fallback",
+        "font-count"
+      ],
+      "terms": []
+    },
+    {
+      "id": "placeholder-copy",
+      "plain": "Lorem ipsum, \"John Doe\", round numbers and \"Your text here\" left in the page.",
+      "technical": "Lorem text, stock placeholder names and obviously fake data in source and on screen. Believable, internally consistent data is part of the design.",
+      "check": "rule",
+      "ruleIds": [
+        "lorem-src",
+        "placeholder-data",
+        "placeholder-data-src"
+      ],
+      "terms": []
+    },
+    {
+      "id": "numbered-sections",
+      "plain": "Decorative 01 / 02 / 03 numbers before headings.",
+      "technical": "Zero-padded or index-style numerals used as ornament rather than as a real sequence.",
+      "check": "rule",
+      "ruleIds": [
+        "numbering",
+        "numbering-src",
+        "zero-pad-src"
+      ],
+      "terms": []
+    },
+    {
+      "id": "justified-body",
+      "plain": "Body text justified into uneven word gaps and rivers.",
+      "technical": "text-align: justify on a block with 80 or more characters of its own text. Left-aligned ragged-right text reads better on the web.",
+      "check": "rule",
+      "ruleIds": [
+        "justified-text"
+      ],
+      "terms": [
+        "measure"
+      ]
+    },
+    {
+      "id": "skipped-headings",
+      "plain": "Heading levels jump from h1 to h4 to pick a size.",
+      "technical": "A heading whose level is more than one deeper than the previous. Headings are structure for assistive tech; size comes from CSS.",
+      "check": "rule",
+      "ruleIds": [
+        "skipped-heading"
+      ],
+      "terms": []
+    },
+    {
+      "id": "faint-body-text",
+      "plain": "Body copy in pale grey that looks elegant and is hard to read.",
+      "technical": "Text below the WCAG floor (contrast) or a soft grey body under 7:1 (grey-body); declared token pairs that miss 4.5:1 (token-contrast).",
+      "check": "rule",
+      "ruleIds": [
+        "contrast",
+        "grey-body",
+        "token-contrast"
+      ],
+      "terms": [
+        "contrast-ratio"
+      ]
+    },
+    {
+      "id": "terracotta-cream-palette",
+      "plain": "The warm cream, terracotta and charcoal palette that signals \"an AI wrote this\".",
+      "technical": "Palette families matched in rendered colours (palette-cream, palette-terracotta, palette-claude) and in source (claude-palette-src).",
+      "check": "rule",
+      "ruleIds": [
+        "palette-claude",
+        "palette-terracotta",
+        "palette-cream",
+        "claude-palette-src"
+      ],
+      "terms": [
+        "seed-colour"
+      ]
+    },
+    {
+      "id": "em-dash-copy",
+      "plain": "Sentences held together with em dashes.",
+      "technical": "More than four em dashes across the source files (em-dash-src, WARN only). One or two is style; a habit is a voice that is not yours.",
+      "check": "rule",
+      "ruleIds": [
+        "em-dash-src"
+      ],
+      "terms": []
+    },
+    {
+      "id": "hairline-everything",
+      "plain": "Every box and divider drawn with a thin grey line.",
+      "technical": "Counts of 1 px borders and divider rules, and even 1 px outlines on boxes. Use fill steps and space to separate.",
+      "check": "rule",
+      "ruleIds": [
+        "hairline",
+        "hairline-src",
+        "outlined-box",
+        "outlined-box-src"
+      ],
+      "terms": []
+    },
+    {
+      "id": "motion-ignores-preference",
+      "plain": "Animations that keep running when the system asks for less motion.",
+      "technical": "The capture matrix reruns with prefers-reduced-motion: reduce and fails any element still moving over 10 ms.",
+      "check": "rule",
+      "ruleIds": [
+        "reduced-motion-ignored"
+      ],
+      "terms": [
+        "reduced-motion"
+      ]
+    },
+    {
+      "id": "lazy-transitions",
+      "plain": "transition: all, looping bounce or pulse classes and ease-in used on everything.",
+      "technical": "Source patterns: transition: all (animates every property), Tailwind animate-bounce, animate-ping and animate-pulse classes, and the ease-in keyword (ease-in-out is allowed).",
+      "check": "rule",
+      "ruleIds": [
+        "transition-all-src",
+        "bounce-src",
+        "ease-in-src"
+      ],
+      "terms": [
+        "transition",
+        "easing"
+      ]
+    },
+    {
+      "id": "generic-hero-copy",
+      "plain": "A headline that could belong to any product: \"Build faster. Ship better.\"",
+      "technical": "The reviewer asks the competitor test: swap in a rival's name; if the headline still works, it says nothing. No rule can judge meaning.",
+      "check": "review",
+      "ruleIds": [],
+      "terms": [
+        "visual-hierarchy"
+      ]
+    },
+    {
+      "id": "identical-feature-triplet",
+      "plain": "Three equal columns of feature, benefit and detail, with no order of importance.",
+      "technical": "Judged from the screenshot: three siblings of equal size, weight and copy length. Distinct from icon-card-grid, which is mechanically detectable.",
+      "check": "review",
+      "ruleIds": [],
+      "terms": [
+        "visual-hierarchy"
+      ]
+    },
+    {
+      "id": "stock-people-photo",
+      "plain": "Smiling people at laptops or handshakes in place of the real product.",
+      "technical": "Judged from images: generic stock photography instead of product screens, artefacts or specific people.",
+      "check": "review",
+      "ruleIds": [],
+      "terms": []
+    },
+    {
+      "id": "decoration-without-purpose",
+      "plain": "Shapes, blobs, grids and glows that point at nothing.",
+      "technical": "The reviewer asks of each decorative element what it explains or whom it helps. If neither, cut it.",
+      "check": "review",
+      "ruleIds": [],
+      "terms": []
+    },
+    {
+      "id": "no-point-of-view",
+      "plain": "Nothing on the page could not appear on any competitor's site.",
+      "technical": "Fails the idea gate: no one live thing that is specific to this product, and no choice a competitor would not make.",
+      "check": "review",
+      "ruleIds": [],
+      "terms": [
+        "visual-hierarchy"
+      ]
+    },
+    {
+      "id": "uneven-rhythm",
+      "plain": "Gaps between sections and elements drift with no shared scale.",
+      "technical": "Judged from screenshots and the spacing tokens: paddings and margins off the spacing scale, or inconsistent between like parts.",
+      "check": "review",
+      "ruleIds": [],
+      "terms": [
+        "spacing-scale"
+      ]
+    },
+    {
+      "id": "everything-equally-loud",
+      "plain": "Every block competes with the same size, weight and colour.",
+      "technical": "Judged from the first-screen screenshot: no single focal point and more than one competing accent.",
+      "check": "review",
+      "ruleIds": [],
+      "terms": [
+        "visual-hierarchy",
+        "accent"
+      ]
+    },
+    {
+      "id": "fake-metrics",
+      "plain": "Round, impressive statistics (\"10x faster\", \"99.9%\") with no source.",
+      "technical": "Judged from copy: figures presented as proof without a measurement, date or source.",
+      "check": "review",
+      "ruleIds": [],
+      "terms": []
+    }
+  ]
+}

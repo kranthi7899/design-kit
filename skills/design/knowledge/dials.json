@@ -1,0 +1,127 @@
+{
+  "schema": "harness.dials/1",
+  "dials": [
+    {
+      "id": "calmer",
+      "label": "Calmer",
+      "plain": "Slows motion, softens the type hierarchy and adds room, so the page feels quieter and less urgent. Opposite of dial:louder.",
+      "moves": {
+        "motion.duration": {
+          "mul": 1.2
+        },
+        "type.ratio": {
+          "stepOption": -1
+        },
+        "space.density": {
+          "add": 0.1
+        }
+      }
+    },
+    {
+      "id": "louder",
+      "label": "Louder",
+      "plain": "Speeds motion up, widens the gaps between heading sizes and tightens space, so the page feels bolder and more insistent. Opposite of dial:calmer.",
+      "moves": {
+        "motion.duration": {
+          "mul": 0.85
+        },
+        "type.ratio": {
+          "stepOption": 1
+        },
+        "space.density": {
+          "add": -0.1
+        }
+      }
+    },
+    {
+      "id": "denser",
+      "label": "Denser",
+      "plain": "Fits more on screen: smaller body text, tighter lines and tighter spacing. Good for tools and tables. Opposite of dial:airier.",
+      "moves": {
+        "space.density": {
+          "add": -0.1
+        },
+        "type.base": {
+          "add": -1
+        },
+        "type.leading": {
+          "add": -0.05
+        }
+      }
+    },
+    {
+      "id": "airier",
+      "label": "Airier",
+      "plain": "Gives everything more room: larger body text, looser lines and wider spacing. Good for reading and marketing pages. Opposite of dial:denser.",
+      "moves": {
+        "space.density": {
+          "add": 0.1
+        },
+        "type.base": {
+          "add": 1
+        },
+        "type.leading": {
+          "add": 0.05
+        }
+      }
+    },
+    {
+      "id": "softer",
+      "label": "Softer",
+      "plain": "Rounds corners, eases motion at both ends and loosens lines, for a friendlier feel. Opposite of dial:sharper.",
+      "moves": {
+        "shape.radius": {
+          "add": 4
+        },
+        "motion.easing": {
+          "set": "gentle"
+        },
+        "type.leading": {
+          "add": 0.05
+        }
+      }
+    },
+    {
+      "id": "sharper",
+      "label": "Sharper",
+      "plain": "Squares corners, makes motion snap and tightens lines, for a precise, technical feel. Opposite of dial:softer.",
+      "moves": {
+        "shape.radius": {
+          "add": -4
+        },
+        "motion.easing": {
+          "set": "standard"
+        },
+        "type.leading": {
+          "add": -0.05
+        }
+      }
+    },
+    {
+      "id": "quicker",
+      "label": "Quicker",
+      "plain": "Shortens every transition by a quarter and uses the snappy standard curve. Opposite of dial:slower.",
+      "moves": {
+        "motion.duration": {
+          "mul": 0.75
+        },
+        "motion.easing": {
+          "set": "standard"
+        }
+      }
+    },
+    {
+      "id": "slower",
+      "label": "Slower",
+      "plain": "Lengthens every transition by a third and uses the gentle curve. Reduced-motion visitors are unaffected. Opposite of dial:quicker.",
+      "moves": {
+        "motion.duration": {
+          "mul": 1.33
+        },
+        "motion.easing": {
+          "set": "gentle"
+        }
+      }
+    }
+  ]
+}

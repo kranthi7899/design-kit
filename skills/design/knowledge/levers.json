@@ -1,0 +1,588 @@
+{
+  "schema": "harness.levers/1",
+  "levers": [
+    {
+      "id": "type.base",
+      "label": "Body text size",
+      "group": "type",
+      "control": "range",
+      "unit": "px",
+      "default": 16,
+      "min": 14,
+      "max": 20,
+      "step": 1,
+      "plain": "The size of ordinary paragraph text, in pixels; every heading size is built up from it, so this one number scales the whole page. Bigger reads easier and feels roomier; smaller fits more but strains eyes. On marketing pages rule:body-size warns under 16px and fails under 15px, and rule:small-text fails when more than three text blocks are under 13px (one to three only warn).",
+      "technical": "Anchor of the type scale: font.size.base = this value; the other six steps are base x ratio^k (see lever:type.ratio). 16px is the browser default and the floor the gates assume for running text.",
+      "term": "type-scale",
+      "mapsTo": [
+        "font.size.*"
+      ],
+      "gates": [],
+      "ruleIds": [
+        "body-size",
+        "small-text"
+      ],
+      "example": {
+        "pass": {
+          "label": "16px: the browser default, comfortable for paragraphs",
+          "settings": {
+            "type.base": 16
+          }
+        },
+        "fail": {
+          "label": "No bench gate fails: 14px is below the 15px floor of rule:body-size and its sm step is 11.2px (under 13px, rule:small-text), but those rules run on marketing pages, not on the bench sample",
+          "settings": {
+            "type.base": 14
+          }
+        }
+      }
+    },
+    {
+      "id": "type.ratio",
+      "label": "Type scale ratio",
+      "group": "type",
+      "control": "enum",
+      "unit": "ratio",
+      "default": 1.25,
+      "options": [
+        {
+          "value": 1.067,
+          "label": "Minor second"
+        },
+        {
+          "value": 1.125,
+          "label": "Major second"
+        },
+        {
+          "value": 1.2,
+          "label": "Minor third"
+        },
+        {
+          "value": 1.25,
+          "label": "Major third"
+        },
+        {
+          "value": 1.333,
+          "label": "Perfect fourth"
+        },
+        {
+          "value": 1.414,
+          "label": "Augmented fourth"
+        },
+        {
+          "value": 1.5,
+          "label": "Perfect fifth"
+        },
+        {
+          "value": 1.618,
+          "label": "Golden ratio"
+        }
+      ],
+      "plain": "How much bigger each heading step is than the one below it. Small ratios feel calm and dense, big ones feel loud and editorial. If the steps are too close, nobody can see the hierarchy and pages grow extra in-between sizes, which on marketing pages rule:size-count warns about at more than nine different sizes.",
+      "technical": "Modular scale: size(k) = base x ratio^k for k = -1..5 (sm, base, md, lg, xl, 2xl, 3xl), rounded to 0.01 px. Adjacent steps differ by a constant factor, so hierarchy contrast is the same at every level.",
+      "term": "modular-scale",
+      "mapsTo": [
+        "font.size.*"
+      ],
+      "gates": [],
+      "ruleIds": [
+        "size-count"
+      ],
+      "example": {
+        "pass": {
+          "label": "1.25: seven sizes, each clearly distinct (12.8 to 48.83px)",
+          "settings": {
+            "type.ratio": 1.25
+          }
+        },
+        "fail": {
+          "label": "No bench gate fails: 1.067 puts steps under 1.2px apart at body size, too close to read as hierarchy; rule:size-count only counts sizes on a real page",
+          "settings": {
+            "type.ratio": 1.067
+          }
+        }
+      }
+    },
+    {
+      "id": "type.leading",
+      "label": "Line spacing",
+      "group": "type",
+      "control": "range",
+      "unit": "ratio",
+      "default": 1.5,
+      "min": 1.2,
+      "max": 1.8,
+      "step": 0.05,
+      "plain": "The height of each line of text as a multiple of its font size: how much air sits between lines. Tight leading suits big headings, generous leading suits long paragraphs. Too tight and lines crash into each other; too loose and the eye loses the next line. No gate checks this lever; judge it by eye.",
+      "technical": "Unitless line-height. font.line-height.base = this value, tight = max(1.1, value - 0.3), loose = value + 0.15, each rounded to 0.01. WCAG 2.2 SC 1.4.12 expects text to survive 1.5 line spacing.",
+      "term": "leading",
+      "mapsTo": [
+        "font.line-height.*"
+      ],
+      "gates": [],
+      "ruleIds": [],
+      "example": {
+        "pass": {
+          "label": "1.5: the WCAG-friendly default for paragraphs",
+          "settings": {
+            "type.leading": 1.5
+          }
+        },
+        "fail": {
+          "label": "No gate fails: 1.2 makes paragraph lines nearly touch; fine for headings, tiring for body text",
+          "settings": {
+            "type.leading": 1.2
+          }
+        }
+      }
+    },
+    {
+      "id": "space.unit",
+      "label": "Spacing unit",
+      "group": "space",
+      "control": "range",
+      "unit": "px",
+      "default": 4,
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "plain": "The smallest step of the spacing ruler, in pixels. Every gap and padding is a multiple of it, so pieces line up on one grid and the page feels orderly. A bigger unit makes every gap bigger together. rule:blank-gap only fires on a stretch of the page that is completely empty and at least 42% of the screen tall, so ordinary spacing never trips it.",
+      "technical": "Space scale: space.1..8 = [1,2,3,4,6,8,12,16] x unit x density, rounded to whole pixels (see lever:space.density). 4px is the common base because multiples of 4 stay whole pixels at 1x, 1.5x, 2x and 3x display density.",
+      "term": "spacing-scale",
+      "mapsTo": [
+        "space.*"
+      ],
+      "gates": [],
+      "ruleIds": [
+        "blank-gap"
+      ],
+      "example": {
+        "pass": {
+          "label": "4px: steps of 4, 8, 12, 16, 24, 32, 48, 64 px",
+          "settings": {
+            "space.unit": 4
+          }
+        },
+        "fail": {
+          "label": "No gate fails: 8px at density 1.5 makes the largest step 192px, which feels hollow but is far below the 336px (42% of 800) that rule:blank-gap needs; judge it by eye",
+          "settings": {
+            "space.unit": 8,
+            "space.density": 1.5
+          }
+        }
+      }
+    },
+    {
+      "id": "space.density",
+      "label": "Density",
+      "group": "space",
+      "control": "range",
+      "unit": "ratio",
+      "default": 1,
+      "min": 0.75,
+      "max": 1.5,
+      "step": 0.05,
+      "plain": "A multiplier on all spacing: below 1 packs the interface tighter (dashboards, tools), above 1 gives it room to breathe (marketing, reading). It changes how much fits on a screen without touching type or colour. rule:blank-gap only catches an extreme: a completely empty stretch at least 42% of the screen tall.",
+      "technical": "Scalar applied to the space scale before rounding: space.n = round(multiplier_n x unit x density). Density 1 leaves the ruler as specified; the scale stays integer pixels.",
+      "term": "density",
+      "mapsTo": [
+        "space.*"
+      ],
+      "gates": [],
+      "ruleIds": [
+        "blank-gap"
+      ],
+      "example": {
+        "pass": {
+          "label": "1.0: balanced gaps, nothing cramped or hollow",
+          "settings": {
+            "space.density": 1
+          }
+        },
+        "fail": {
+          "label": "No gate fails: density 1.5 with an 8px unit gives gaps up to 192px; that feels empty but rule:blank-gap needs 336px of nothing at 800px tall, so judge it by eye",
+          "settings": {
+            "space.density": 1.5,
+            "space.unit": 8
+          }
+        }
+      }
+    },
+    {
+      "id": "shape.radius",
+      "label": "Corner radius",
+      "group": "shape",
+      "control": "range",
+      "unit": "px",
+      "default": 8,
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "plain": "How round the corners of buttons, cards and inputs are. 0 is sharp and technical, 24 is soft and friendly. One value drives a small, medium, large and pill size, so corners stay in one family. On app screens rule:radius-mix warns when panels use more than three different radii.",
+      "technical": "radius.md = value; radius.sm = value / 2; radius.lg = min(2 x value, 32); radius.full = 9999 (a pill). Everything derives from one number so related corners keep a consistent ratio.",
+      "term": "radius",
+      "mapsTo": [
+        "radius.*"
+      ],
+      "gates": [],
+      "ruleIds": [
+        "radius-mix"
+      ],
+      "example": {
+        "pass": {
+          "label": "8px: soft but still precise; sm 4, lg 16 follow from it",
+          "settings": {
+            "shape.radius": 8
+          }
+        },
+        "fail": {
+          "label": "No gate fails: 24px is legal, but corners this big dominate small controls; rule:radius-mix (app screens only) fires only if a page adds its own extra radii on top",
+          "settings": {
+            "shape.radius": 24
+          }
+        }
+      }
+    },
+    {
+      "id": "colour.seed",
+      "label": "Seed colour",
+      "group": "colour",
+      "control": "color",
+      "default": "#2b59c3",
+      "plain": "The one colour the whole palette grows from. Pick a brand or mood colour; the generator keeps its hue and strength and builds every light and dark shade of accent, surfaces and text from it. The seed itself is never used directly, so a vivid seed cannot break readability.",
+      "technical": "Converted to HCT; its hue and chroma define the accent tonal palette A, and its hue (with a small chroma, see lever:colour.neutral-tint) defines the neutral palette N. Roles are picked by tone, which is CIE L*, so contrast is predictable from tone gaps.",
+      "term": "seed-colour",
+      "mapsTo": [
+        "color.*"
+      ],
+      "gates": [
+        "token-contrast"
+      ],
+      "ruleIds": [
+        "token-contrast"
+      ],
+      "example": {
+        "pass": {
+          "label": "#2b59c3 (blue): every role passes contrast in all four modes",
+          "settings": {
+            "colour.seed": "#2b59c3"
+          }
+        },
+        "fail": {
+          "label": "Any seed passes at the default tone; it only fails once lever:colour.accent-tone leaves the safe band (for example 60)",
+          "settings": {
+            "colour.seed": "#2b59c3",
+            "colour.accent-tone": 60
+          }
+        }
+      }
+    },
+    {
+      "id": "colour.accent-tone",
+      "label": "Accent lightness",
+      "group": "colour",
+      "control": "range",
+      "unit": "tone",
+      "default": 40,
+      "min": 30,
+      "max": 70,
+      "step": 5,
+      "plain": "How light or dark the accent colour is on the light theme. Dark accents give white button text strong contrast; light accents look friendlier but white text on them gets hard to read. The dark theme mirrors it automatically. rule:token-contrast fails when text on the accent drops below 4.5 to 1.",
+      "technical": "HCT tone (CIE L*) of accent in light mode. Tone gaps predict contrast: a gap of 40 against on-accent (tone 100) gives about 3:1. Tone 45 or darker passes 4.5:1 for any seed; tone 50 sits at about 4.3 to 4.5:1 depending on the seed. Dark mode uses tone clamp(120 - t, 60, 90), and on-accent takes the darker of tone 20 or the accent tone minus 45 so dark never fails first.",
+      "term": "tone",
+      "mapsTo": [
+        "color.accent",
+        "color.on-accent",
+        "color.focus-ring"
+      ],
+      "gates": [
+        "token-contrast"
+      ],
+      "ruleIds": [
+        "token-contrast",
+        "contrast"
+      ],
+      "example": {
+        "pass": {
+          "label": "Tone 40 (default blue seed): white on accent is 6.4:1 (needs 4.5:1)",
+          "settings": {
+            "colour.accent-tone": 40
+          }
+        },
+        "fail": {
+          "label": "Tone 60 (default blue seed): white on accent is about 3.2:1 in light mode, below the 4.5:1 floor",
+          "settings": {
+            "colour.accent-tone": 60
+          }
+        }
+      }
+    },
+    {
+      "id": "colour.neutral-tint",
+      "label": "Neutral tint",
+      "group": "colour",
+      "control": "range",
+      "unit": "chroma",
+      "default": 4,
+      "min": 0,
+      "max": 16,
+      "step": 1,
+      "plain": "How much of the seed colour leaks into the greys: backgrounds, panels and body text. 0 is pure grey; higher feels warmer or cooler and ties the greys to the brand. Text and background are chosen by lightness, so any tint keeps the same contrast.",
+      "technical": "HCT chroma of the neutral palette N at the seed hue. Roles surface N98/N10, raised N100/N17, on-surface N10/N90, muted N40/N80 are fixed tones, so chroma changes colour but not the tone-driven contrast.",
+      "term": "chroma",
+      "mapsTo": [
+        "color.surface",
+        "color.raised",
+        "color.on-surface",
+        "color.muted"
+      ],
+      "gates": [
+        "token-contrast"
+      ],
+      "ruleIds": [
+        "token-contrast"
+      ],
+      "example": {
+        "pass": {
+          "label": "Chroma 4: a faint tint, greys feel part of the brand",
+          "settings": {
+            "colour.neutral-tint": 4
+          }
+        },
+        "fail": {
+          "label": "No gate fails: chroma 16 passes contrast but tints the page strongly; check it by eye, no gate can see it",
+          "settings": {
+            "colour.neutral-tint": 16
+          }
+        }
+      }
+    },
+    {
+      "id": "colour.contrast",
+      "label": "Contrast level",
+      "group": "colour",
+      "control": "enum",
+      "unit": "mode",
+      "default": "standard",
+      "options": [
+        {
+          "value": "standard",
+          "label": "Standard"
+        },
+        {
+          "value": "high",
+          "label": "High"
+        }
+      ],
+      "plain": "Standard follows the usual WCAG minimums. High pushes text to pure black or white and moves the accent 10 tones darker on the light theme (lighter on the dark theme), for people who need more separation. Visitors who ask their device for more contrast get the high set automatically either way.",
+      "technical": "Selects what the default mode uses. High mode: on-surface N0 / N100, muted N20 / N90, accent 10 tones further from the surface (darker in light, lighter in dark). The prefers-contrast: more media block always carries the high values regardless of this lever. See term:contrast-ratio.",
+      "term": "contrast-ratio",
+      "mapsTo": [
+        "color.*"
+      ],
+      "gates": [
+        "token-contrast"
+      ],
+      "ruleIds": [
+        "token-contrast",
+        "contrast"
+      ],
+      "example": {
+        "pass": {
+          "label": "High: black text is 21:1 on the raised surface (#ffffff) and 19.95:1 on the surface (N98)",
+          "settings": {
+            "colour.contrast": "high"
+          }
+        },
+        "fail": {
+          "label": "High does not rescue a pale accent: tone 65 becomes 55 in high mode, still only 3.8:1 with white text, so the light permutation fails",
+          "settings": {
+            "colour.contrast": "high",
+            "colour.accent-tone": 65
+          }
+        }
+      }
+    },
+    {
+      "id": "colour.dark-surface-chroma",
+      "label": "Dark background tint",
+      "group": "colour",
+      "control": "range",
+      "unit": "chroma",
+      "default": "auto",
+      "auto": "Follows lever:colour.neutral-tint, so the dark background carries exactly the tint of the light greys (the Phase 2 behaviour, byte for byte).",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "plain": "How much colour the dark theme's background and panels carry. On auto it matches the neutral tint: a near-black grey. Raise it and the dark theme sits on a deep navy, plum or forest instead of charcoal, the way night photos look. The vibe analysis sets it for dark image sets. Only the two background roles change, and they keep their lightness, so contrast barely moves.",
+      "technical": "HCT chroma of a separate palette D at the seed hue, used only for the dark roles surface (D10) and raised (D17); text, muted, accent and the light theme are unchanged. Tone stays 10 and 17, so contrast moves by hundredths: on-surface/surface is 13.39:1 at chroma 0 and 13.27:1 at 40 for the default seed. The sRGB gamut caps what a tone-10 colour can hold (about 35 for this blue), so the top of the range saturates.",
+      "term": "chroma",
+      "mapsTo": [
+        "color.surface",
+        "color.raised"
+      ],
+      "gates": [
+        "token-contrast"
+      ],
+      "ruleIds": [
+        "token-contrast"
+      ],
+      "example": {
+        "pass": {
+          "label": "Chroma 12 (default seed): a navy-tinted dark background #181b27; text on it is 13.32:1 (needs 4.5:1)",
+          "settings": {
+            "colour.dark-surface-chroma": 12
+          }
+        },
+        "fail": {
+          "label": "No gate fails: chroma 40 still gives text 13.27:1, but the dark background turns a saturated blue #00184a that competes with the accent; check it by eye, no gate can see it",
+          "settings": {
+            "colour.dark-surface-chroma": 40
+          }
+        }
+      }
+    },
+    {
+      "id": "colour.dark-accent-tone",
+      "label": "Dark accent lightness",
+      "group": "colour",
+      "control": "range",
+      "unit": "tone",
+      "default": "auto",
+      "auto": "Mirrors lever:colour.accent-tone as tone clamp(120 - accent tone, 60, 90): the default accent tone 40 gives 80 (the Phase 2 behaviour, byte for byte).",
+      "min": 40,
+      "max": 95,
+      "step": 5,
+      "plain": "How light the accent is on the dark theme, set on its own instead of mirrored from the light theme. A lower tone keeps a deep, saturated accent (a cobalt button stays cobalt); a higher tone turns it pastel. The vibe analysis sets it for dark image sets. Too dark and the button sinks into the background: rule:token-contrast fails when the accent drops under 3 to 1 against the dark surface or its label under 4.5 to 1.",
+      "technical": "HCT tone (CIE L*) of accent and focus-ring in dark mode, replacing clamp(120 - t, 60, 90); high contrast adds 10, capped at 95. The dark on-accent label is tone min(20, d - 45). Against the tone-10 surface, tone 55 or lighter passed for every one of 72 sampled seeds (24 hues x 3 chromas, measured); tone 50 failed on-accent/accent for all 72.",
+      "term": "tone",
+      "mapsTo": [
+        "color.accent",
+        "color.on-accent",
+        "color.focus-ring"
+      ],
+      "gates": [
+        "token-contrast"
+      ],
+      "ruleIds": [
+        "token-contrast",
+        "contrast"
+      ],
+      "example": {
+        "pass": {
+          "label": "Tone 60 (default seed): the accent on the dark surface is 5.43:1 (needs 3:1) and its label 4.8:1 (needs 4.5:1)",
+          "settings": {
+            "colour.dark-accent-tone": 60
+          }
+        },
+        "fail": {
+          "label": "Tone 45 (default seed): the dark button label is 3.9:1, below the 4.5:1 floor",
+          "settings": {
+            "colour.dark-accent-tone": 45
+          }
+        }
+      }
+    },
+    {
+      "id": "motion.duration",
+      "label": "Motion duration",
+      "group": "motion",
+      "control": "range",
+      "unit": "ms",
+      "default": 220,
+      "min": 120,
+      "max": 400,
+      "step": 10,
+      "plain": "How long a standard transition takes, in milliseconds; all other speeds are scaled from it. Quick feels crisp, slow feels calm. Whatever the length, visitors who ask for reduced motion must not see movement: rule:reduced-motion-ignored checks that the page honours it.",
+      "technical": "motion.duration ladder = value x [0.45, 0.68, 1, 1.64, 2.73], each rounded to 10 ms: instant, quick, base, slow, scene. At 220 ms: 100, 150, 220, 360, 600. Positional transitions longer than 10 ms under prefers-reduced-motion: reduce are the gate's failure condition.",
+      "term": "motion-duration",
+      "mapsTo": [
+        "motion.duration.*"
+      ],
+      "gates": [
+        "reduced-motion-ignored"
+      ],
+      "ruleIds": [
+        "reduced-motion-ignored"
+      ],
+      "example": {
+        "pass": {
+          "label": "220ms with the sample honouring reduced motion: the dual run passes",
+          "settings": {
+            "motion.duration": 220
+          }
+        },
+        "fail": {
+          "label": "No gate fails: duration is not what the gate checks; a page whose CSS ignores prefers-reduced-motion fails at any length (see fixtures/capture/motion-ignores.html)",
+          "settings": {
+            "motion.duration": 400
+          }
+        }
+      }
+    },
+    {
+      "id": "motion.easing",
+      "label": "Motion easing",
+      "group": "motion",
+      "control": "enum",
+      "unit": "curve",
+      "default": "standard",
+      "options": [
+        {
+          "value": "standard",
+          "label": "Standard",
+          "curve": [
+            0.2,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "value": "gentle",
+          "label": "Gentle",
+          "curve": [
+            0.4,
+            0,
+            0.2,
+            1
+          ]
+        },
+        {
+          "value": "linear",
+          "label": "Linear",
+          "curve": [
+            0,
+            0,
+            1,
+            1
+          ]
+        }
+      ],
+      "plain": "The speed profile of a transition: how it starts and stops. Standard leaps off and settles softly, gentle eases both ends, linear is constant and feels mechanical. Easing that starts slowly and speeds up (ease-in) feels sluggish on screen; rule:ease-in-src warns when the literal keyword ease-in appears in source.",
+      "technical": "Cubic Bezier control points (x1, y1, x2, y2) written to motion.easing.standard: standard [0.2, 0, 0, 1], gentle [0.4, 0, 0.2, 1], linear [0, 0, 1, 1]. No option overshoots (y > 1); the decelerate and accelerate curves are fixed.",
+      "term": "easing",
+      "mapsTo": [
+        "motion.easing.standard"
+      ],
+      "gates": [],
+      "ruleIds": [
+        "ease-in-src"
+      ],
+      "example": {
+        "pass": {
+          "label": "Standard [0.2, 0, 0, 1]: quick start, soft landing",
+          "settings": {
+            "motion.easing": "standard"
+          }
+        },
+        "fail": {
+          "label": "No gate fails: linear is legal but robotic for interface motion; rule:ease-in-src only matches the literal keyword ease-in in source, which this sample never uses",
+          "settings": {
+            "motion.easing": "linear"
+          }
+        }
+      }
+    }
+  ]
+}

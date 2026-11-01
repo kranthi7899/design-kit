@@ -1,0 +1,1085 @@
+{
+  "schema": "harness.seeds/1",
+  "seeds": [
+    {
+      "slug": "1win",
+      "name": "1win",
+      "canvas": "dark",
+      "colors": 10,
+      "typography": 6,
+      "fonts": [
+        "Inter"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "airbnb",
+      "name": "Airbnb",
+      "canvas": "light",
+      "colors": 23,
+      "typography": 18,
+      "fonts": [
+        "-apple-system",
+        "Airbnb Cereal VF",
+        "Circular",
+        "Helvetica Neue",
+        "Roboto",
+        "sans-serif",
+        "system-ui"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "airtable",
+      "name": "Airtable",
+      "canvas": "light",
+      "colors": 28,
+      "typography": 14,
+      "fonts": [
+        "Haas",
+        "Haas Groot Disp",
+        "Inter Display",
+        "sans-serif",
+        "system-ui"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "aljazeera",
+      "name": "Al Jazeera",
+      "canvas": "light",
+      "colors": 20,
+      "typography": 11,
+      "fonts": [
+        "Roboto"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "apple",
+      "name": "Apple",
+      "canvas": "light",
+      "colors": 21,
+      "typography": 16,
+      "fonts": [
+        "-apple-system",
+        "SF Pro Display",
+        "SF Pro Text",
+        "sans-serif",
+        "system-ui"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "binance",
+      "name": "Binance",
+      "canvas": "light",
+      "colors": 24,
+      "typography": 15,
+      "fonts": [
+        "-apple-system",
+        "BinanceNova",
+        "BinancePlex",
+        "BlinkMacSystemFont",
+        "sans-serif"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "bmw",
+      "name": "BMW",
+      "canvas": "light",
+      "colors": 25,
+      "typography": 13,
+      "fonts": [
+        "-apple-system",
+        "BMW Type Next Latin",
+        "BlinkMacSystemFont",
+        "Roboto",
+        "Segoe UI",
+        "sans-serif",
+        "system-ui"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "bmw-m",
+      "name": "BMW M",
+      "canvas": "dark",
+      "colors": 21,
+      "typography": 13,
+      "fonts": [
+        "BMWTypeNextLatin",
+        "BMWTypeNextLatin Light",
+        "sans-serif"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "bugatti",
+      "name": "Bugatti",
+      "canvas": "dark",
+      "colors": 18,
+      "typography": 12,
+      "fonts": [
+        "Bugatti Display",
+        "Bugatti Monospace",
+        "Bugatti Text Regular",
+        "monospace",
+        "sans-serif",
+        "serif",
+        "ui-monospace"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "cal",
+      "name": "Cal.com",
+      "canvas": "light",
+      "colors": 26,
+      "typography": 13,
+      "fonts": [
+        "Cal Sans",
+        "Inter",
+        "JetBrains Mono",
+        "monospace",
+        "sans-serif",
+        "ui-monospace"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "claude",
+      "name": "Claude",
+      "canvas": "light",
+      "colors": 25,
+      "typography": 14,
+      "fonts": [
+        "Copernicus",
+        "Inter",
+        "JetBrains Mono",
+        "StyreneB",
+        "Tiempos Headline",
+        "monospace",
+        "sans-serif",
+        "serif",
+        "ui-monospace"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "clay",
+      "name": "Clay",
+      "canvas": "light",
+      "colors": 29,
+      "typography": 13,
+      "fonts": [
+        "Inter",
+        "Plain Black",
+        "sans-serif"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "clickhouse",
+      "name": "ClickHouse",
+      "canvas": "dark",
+      "colors": 24,
+      "typography": 15,
+      "fonts": [
+        "Inter",
+        "JetBrains Mono",
+        "monospace",
+        "sans-serif",
+        "ui-monospace"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "cohere",
+      "name": "Cohere",
+      "canvas": "light",
+      "colors": 23,
+      "typography": 12,
+      "fonts": [
+        "CohereMono",
+        "CohereText",
+        "Unica77 Cohere Web"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "coinbase",
+      "name": "Coinbase",
+      "canvas": "light",
+      "colors": 22,
+      "typography": 16,
+      "fonts": [
+        "-apple-system",
+        "Arial",
+        "Coinbase Display",
+        "Coinbase Mono",
+        "Coinbase Sans",
+        "Helvetica",
+        "Roboto",
+        "Segoe UI",
+        "monospace",
+        "sans-serif",
+        "system-ui"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "composio",
+      "name": "Composio",
+      "canvas": "dark",
+      "colors": 22,
+      "typography": 14,
+      "fonts": [
+        "Fira Code",
+        "JetBrains Mono",
+        "abcDiatype",
+        "monospace",
+        "sans-serif",
+        "system-ui",
+        "ui-sans-serif"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "cursor",
+      "name": "Cursor",
+      "canvas": "light",
+      "colors": 22,
+      "typography": 14,
+      "fonts": [
+        "Arial",
+        "CursorGothic",
+        "Fira Code",
+        "Helvetica",
+        "Helvetica Neue",
+        "JetBrains Mono",
+        "monospace",
+        "sans-serif",
+        "system-ui"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "dell-1996",
+      "name": "Dell 1996",
+      "canvas": "light",
+      "colors": 17,
+      "typography": 10,
+      "fonts": [
+        "Arial Black",
+        "Helvetica",
+        "Times New Roman"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "dji",
+      "name": "DJI",
+      "canvas": "light",
+      "colors": 32,
+      "typography": 21,
+      "fonts": [
+        "Open Sans"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "elevenlabs",
+      "name": "ElevenLabs",
+      "canvas": "light",
+      "colors": 27,
+      "typography": 14,
+      "fonts": [
+        "Inter",
+        "Times New Roman",
+        "Waldenburg",
+        "sans-serif",
+        "serif"
+      ],
+      "warnings": 1
+    },
+    {
+      "slug": "expo",
+      "name": "Expo",
+      "canvas": "light",
+      "colors": 28,
+      "typography": 14,
+      "fonts": [
+        "-apple-system",
+        "Fira Code",
+        "Inter",
+        "JetBrains Mono",
+        "monospace",
+        "sans-serif",
+        "system-ui"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "ferrari",
+      "name": "Ferrari",
+      "canvas": "dark",
+      "colors": 26,
+      "typography": 13,
+      "fonts": [
+        "-apple-system",
+        "FerrariSans",
+        "sans-serif",
+        "system-ui"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "figma",
+      "name": "Figma",
+      "canvas": "light",
+      "colors": 20,
+      "typography": 12,
+      "fonts": [
+        "figmaMono",
+        "figmaSans"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "framer",
+      "name": "Framer",
+      "canvas": "dark",
+      "colors": 17,
+      "typography": 12,
+      "fonts": [
+        "GT Walsheim Framer Medium",
+        "GT Walsheim Medium",
+        "Inter",
+        "Inter Variable"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "hashicorp",
+      "name": "HashiCorp",
+      "canvas": "dark",
+      "colors": 30,
+      "typography": 12,
+      "fonts": [
+        "hashicorpSans"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "hp",
+      "name": "HP",
+      "canvas": "light",
+      "colors": 28,
+      "typography": 16,
+      "fonts": [
+        "Forma DJR Micro"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "ibm",
+      "name": "IBM",
+      "canvas": "light",
+      "colors": 21,
+      "typography": 13,
+      "fonts": [
+        "IBM Plex Sans"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "intercom",
+      "name": "Intercom",
+      "canvas": "light",
+      "colors": 25,
+      "typography": 13,
+      "fonts": [
+        "Saans",
+        "SaansMono"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "jobright",
+      "name": "Jobright",
+      "canvas": "light",
+      "colors": 9,
+      "typography": 11,
+      "fonts": [
+        "Inter",
+        "Titillium Web"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "linear.app",
+      "name": "Linear",
+      "canvas": "dark",
+      "colors": 23,
+      "typography": 13,
+      "fonts": [
+        "Linear Display",
+        "Linear Mono",
+        "Linear Text"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "mercury",
+      "name": "Mercury",
+      "canvas": "light",
+      "colors": 14,
+      "typography": 11,
+      "fonts": [
+        "arcadia",
+        "arcadiaDisplay"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "meta",
+      "name": "Meta",
+      "canvas": "light",
+      "colors": 27,
+      "typography": 15,
+      "fonts": [
+        "Optimistic VF"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "minimax",
+      "name": "MiniMax",
+      "canvas": "light",
+      "colors": 28,
+      "typography": 15,
+      "fonts": [
+        "DM Sans"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "mintlify",
+      "name": "Mintlify",
+      "canvas": "light",
+      "colors": 32,
+      "typography": 20,
+      "fonts": [
+        "Geist Mono",
+        "Inter"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "miro",
+      "name": "Miro",
+      "canvas": "light",
+      "colors": 40,
+      "typography": 18,
+      "fonts": [
+        "Roobert PRO"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "mistral.ai",
+      "name": "Mistral AI",
+      "canvas": "light",
+      "colors": 36,
+      "typography": 19,
+      "fonts": [
+        "Inter",
+        "JetBrains Mono",
+        "PP Editorial Old"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "mongodb",
+      "name": "MongoDB",
+      "canvas": "light",
+      "colors": 34,
+      "typography": 18,
+      "fonts": [
+        "Euclid Circular A",
+        "Source Code Pro"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "mydealz",
+      "name": "mydealz",
+      "canvas": "light",
+      "colors": 16,
+      "typography": 9,
+      "fonts": [
+        "Averta CY",
+        "monospace"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "nerdwallet",
+      "name": "NerdWallet",
+      "canvas": "light",
+      "colors": 23,
+      "typography": 15,
+      "fonts": [
+        "Gotham",
+        "GothamDisplay"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "nike",
+      "name": "Nike",
+      "canvas": "light",
+      "colors": 23,
+      "typography": 13,
+      "fonts": [
+        "Helvetica Neue",
+        "Helvetica Now Display Medium",
+        "Helvetica Now Text",
+        "Helvetica Now Text Medium",
+        "Nike Futura ND"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "nintendo-2001",
+      "name": "Nintendo.com (2001)",
+      "canvas": "light",
+      "colors": 22,
+      "typography": 7,
+      "fonts": [
+        "Arial",
+        "Arial Black"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "notion",
+      "name": "Notion",
+      "canvas": "light",
+      "colors": 47,
+      "typography": 17,
+      "fonts": [
+        "Notion Sans"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "nvidia",
+      "name": "NVIDIA",
+      "canvas": "light",
+      "colors": 28,
+      "typography": 18,
+      "fonts": [
+        "NVIDIA-EMEA"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "ollama",
+      "name": "Ollama",
+      "canvas": "light",
+      "colors": 21,
+      "typography": 13,
+      "fonts": [
+        "SF Pro Rounded",
+        "ui-monospace",
+        "ui-sans-serif"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "opencode.ai",
+      "name": "OpenCode",
+      "canvas": "light",
+      "colors": 28,
+      "typography": 8,
+      "fonts": [
+        "Berkeley Mono"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "oracle",
+      "name": "Oracle",
+      "canvas": "light",
+      "colors": 21,
+      "typography": 17,
+      "fonts": [
+        "Georgia",
+        "Oracle Sans"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "oura",
+      "name": "Oura",
+      "canvas": "light",
+      "colors": 28,
+      "typography": 14,
+      "fonts": [
+        "AkkuratLL",
+        "Editorial New"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "pinterest",
+      "name": "Pinterest",
+      "canvas": "light",
+      "colors": 31,
+      "typography": 14,
+      "fonts": [
+        "Pin Sans"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "playstation",
+      "name": "PlayStation",
+      "canvas": "light",
+      "colors": 36,
+      "typography": 14,
+      "fonts": [
+        "PlayStation SST"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "posthog",
+      "name": "PostHog",
+      "canvas": "light",
+      "colors": 29,
+      "typography": 20,
+      "fonts": [
+        "IBM Plex Sans Variable",
+        "Source Code Pro",
+        "ui-monospace"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "raycast",
+      "name": "Raycast",
+      "canvas": "dark",
+      "colors": 31,
+      "typography": 15,
+      "fonts": [
+        "Inter"
+      ],
+      "warnings": 1
+    },
+    {
+      "slug": "renault",
+      "name": "Renault",
+      "canvas": "light",
+      "colors": 25,
+      "typography": 15,
+      "fonts": [
+        "NouvelR"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "replicate",
+      "name": "Replicate",
+      "canvas": "light",
+      "colors": 26,
+      "typography": 17,
+      "fonts": [
+        "basier-square",
+        "jetbrains-mono",
+        "rb-freigeist-neue"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "resend",
+      "name": "Resend",
+      "canvas": "dark",
+      "colors": 28,
+      "typography": 14,
+      "fonts": [
+        "ABC Favorit",
+        "Domaine Display",
+        "Geist Mono",
+        "Helvetica",
+        "Inter"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "revolut",
+      "name": "Revolut",
+      "canvas": "light",
+      "colors": 35,
+      "typography": 16,
+      "fonts": [
+        "Aeonik Pro",
+        "Inter"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "sap",
+      "name": "SAP",
+      "canvas": "light",
+      "colors": 17,
+      "typography": 12,
+      "fonts": [
+        "72 Brand Variable"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "sentry",
+      "name": "Sentri",
+      "canvas": "dark",
+      "colors": 21,
+      "typography": 16,
+      "fonts": [
+        "-apple-system",
+        "Arial",
+        "Helvetica",
+        "Menlo",
+        "Monaco",
+        "Rubik",
+        "Segoe UI",
+        "Sentri Display",
+        "Ubuntu Mono",
+        "monospace",
+        "sans-serif",
+        "system-ui"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "shopify",
+      "name": "Shopifi",
+      "canvas": "dark",
+      "colors": 22,
+      "typography": 15,
+      "fonts": [
+        "Arial",
+        "Consolas",
+        "Helvetica",
+        "Inter",
+        "Inter Variable",
+        "Menlo",
+        "Monaco",
+        "NeueHaasGrotesk Display",
+        "SFMono-Regular",
+        "monospace",
+        "sans-serif",
+        "ui-monospace"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "slack",
+      "name": "Slacc",
+      "canvas": "light",
+      "colors": 19,
+      "typography": 15,
+      "fonts": [
+        "-apple-system",
+        "BlinkMacSystemFont",
+        "Salesforce-Avant-Garde",
+        "Salesforce-Sans",
+        "sans-serif",
+        "system-ui"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "spacex",
+      "name": "Spacex",
+      "canvas": "dark",
+      "colors": 13,
+      "typography": 8,
+      "fonts": [
+        "Arial",
+        "Arial Narrow",
+        "D-DIN",
+        "D-DIN-Bold",
+        "Verdana",
+        "sans-serif"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "stripe",
+      "name": "Stripi",
+      "canvas": "light",
+      "colors": 20,
+      "typography": 15,
+      "fonts": [
+        "-apple-system",
+        "SF Pro Display",
+        "sans-serif",
+        "sohne-var",
+        "system-ui"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "supabase",
+      "name": "Supabaze",
+      "canvas": "light",
+      "colors": 27,
+      "typography": 12,
+      "fonts": [
+        "Arial",
+        "Circular",
+        "Consolas",
+        "Helvetica",
+        "Helvetica Neue",
+        "Liberation Mono",
+        "Menlo",
+        "Monaco",
+        "monospace",
+        "sans-serif",
+        "ui-monospace"
+      ],
+      "warnings": 1
+    },
+    {
+      "slug": "superhuman",
+      "name": "Superhumon",
+      "canvas": "light",
+      "colors": 15,
+      "typography": 12,
+      "fonts": [
+        "-apple-system",
+        "Roboto",
+        "Segoe UI",
+        "Super Sans VF",
+        "sans-serif",
+        "system-ui"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "together.ai",
+      "name": "Together AI",
+      "canvas": "light",
+      "colors": 13,
+      "typography": 14,
+      "fonts": [
+        "Arial",
+        "Helvetica Neue",
+        "Inter",
+        "Menlo",
+        "PP Neue Montreal Mono",
+        "SF Mono",
+        "The Future",
+        "monospace",
+        "sans-serif",
+        "ui-monospace"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "uber",
+      "name": "Uber",
+      "canvas": "light",
+      "colors": 13,
+      "typography": 13,
+      "fonts": [
+        "Arial",
+        "Helvetica Neue",
+        "UberMove",
+        "UberMoveText",
+        "sans-serif",
+        "system-ui"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "vercel",
+      "name": "Vercel",
+      "canvas": "light",
+      "colors": 36,
+      "typography": 14,
+      "fonts": [
+        "-apple-system",
+        "Geist",
+        "Geist Mono",
+        "Inter",
+        "Menlo",
+        "Monaco",
+        "SFMono-Regular",
+        "monospace",
+        "sans-serif",
+        "system-ui",
+        "ui-monospace"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "vodafone",
+      "name": "Vodafone",
+      "canvas": "light",
+      "colors": 8,
+      "typography": 17,
+      "fonts": [
+        "Arial",
+        "Helvetica Neue",
+        "Vodafone",
+        "Vodafone Rg",
+        "sans-serif"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "voltagent",
+      "name": "Voltagent",
+      "canvas": "dark",
+      "colors": 13,
+      "typography": 16,
+      "fonts": [
+        "-apple-system",
+        "Consolas",
+        "Inter",
+        "Liberation Mono",
+        "Menlo",
+        "Monaco",
+        "Roboto",
+        "SFMono-Regular",
+        "Segoe UI",
+        "monospace",
+        "sans-serif",
+        "system-ui"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "warp",
+      "name": "Warp",
+      "canvas": "dark",
+      "colors": 9,
+      "typography": 14,
+      "fonts": [
+        "-apple-system",
+        "DM Mono",
+        "Georgia",
+        "Instrument Serif",
+        "Inter",
+        "Menlo",
+        "Roboto",
+        "SFMono-Regular",
+        "Segoe UI",
+        "Times New Roman",
+        "monospace",
+        "sans-serif",
+        "serif",
+        "system-ui",
+        "ui-monospace"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "webflow",
+      "name": "Webflow",
+      "canvas": "light",
+      "colors": 19,
+      "typography": 16,
+      "fonts": [
+        "-apple-system",
+        "Inconsolata",
+        "Inter",
+        "Menlo",
+        "SFMono-Regular",
+        "WF Visual Sans Variable",
+        "WFVisualSans-Mono",
+        "monospace",
+        "sans-serif",
+        "system-ui",
+        "ui-monospace"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "wired",
+      "name": "Wired",
+      "canvas": "light",
+      "colors": 9,
+      "typography": 14,
+      "fonts": [
+        "Apercu",
+        "Arial",
+        "BreveText",
+        "Georgia",
+        "Helvetica",
+        "Helvetica Neue",
+        "Times New Roman",
+        "WiredDisplay",
+        "sans-serif",
+        "serif"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "wise",
+      "name": "Wise",
+      "canvas": "light",
+      "colors": 22,
+      "typography": 14,
+      "fonts": [
+        "-apple-system",
+        "Inter",
+        "Wise Sans",
+        "sans-serif",
+        "system-ui"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "x.ai",
+      "name": "xAI",
+      "canvas": "dark",
+      "colors": 18,
+      "typography": 11,
+      "fonts": [
+        "-apple-system",
+        "GeistMono",
+        "Inter",
+        "Menlo",
+        "Monaco",
+        "SFMono-Regular",
+        "monospace",
+        "sans-serif",
+        "system-ui",
+        "ui-monospace",
+        "universalSans"
+      ],
+      "warnings": 0
+    },
+    {
+      "slug": "zapier",
+      "name": "Zapier",
+      "canvas": "light",
+      "colors": 10,
+      "typography": 16,
+      "fonts": [
+        "-apple-system",
+        "Degular Display",
+        "Inter",
+        "sans-serif",
+        "system-ui"
+      ],
+      "warnings": 0
+    }
+  ]
+}
